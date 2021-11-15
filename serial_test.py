@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
         line = ser.readline().decode('ascii').rstrip()
 
-        while(line != "1"):
+        while(not (line == "1")):
             print("czekam")
         print("nowa wiadomosc")
         c = c+1
