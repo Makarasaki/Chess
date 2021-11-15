@@ -8,16 +8,19 @@ if __name__ == '__main__':
     print(c)
     print("zaczynamy:")
     while True:
-        c=1
-        line = str(c) #+ "\n"
-        print(line)
+        #c = 1
+        line = str(c)  # + "\n"
         ser.write(line.encode('ascii'))
-        line = ser.readline().decode('ascii').rstrip()
-        print(line)
-        print("nowa wiadomosc")
-        #c = int(line)
-        c=c+1
-        print(c)
-        #c = c + 1
-        #print(c)
-        time.sleep(1)
+
+        ser.read()
+
+        if (ser == 1):
+            #line = ser.readline().decode('ascii').rstrip()
+            # print(line)
+            print("nowa wiadomosc")
+            #c = int(line)
+            c = c+1
+            print(c)
+            #c = c + 1
+            # print(c)
+            # time.sleep(1)
