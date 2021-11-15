@@ -9,7 +9,8 @@ if __name__ == '__main__':
         line = str(c) + "\n"
         ser.write(line.encode('ascii'))
         line = ser.readline().decode('ascii').rstrip()
-        c = int(line)
-        c = c + 1
-        print(str(c))
+        print(line)
+        # c = int(line)
+        # c = c + 1
+        # print(c)
         time.sleep(1)
