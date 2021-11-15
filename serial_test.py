@@ -2,7 +2,7 @@
 import serial
 import time
 if __name__ == '__main__':
-    ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=1)
+    ser = serial.Serial('/dev/ttyUSB0', 38400, timeout=1)
     ser.reset_input_buffer()
     c = 1
     print(c)
@@ -13,9 +13,7 @@ if __name__ == '__main__':
 
         line = ser.readline().decode('ascii').rstrip()
 
-        while(not (line == "1")):
-            print("czekam")
-            line = ser.readline().decode('ascii').rstrip()
-        print("nowa wiadomosc")
-        c = c+1
-        print(c)
+        if (line == "1"):
+            #print("nowa wiadomosc")
+            c = c+1
+            print(c)
