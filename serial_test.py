@@ -12,10 +12,9 @@ if __name__ == '__main__':
         line = str(c)  # + "\n"
         ser.write(line.encode('ascii'))
 
-        ser.read()
+        line = ser.readline().decode('ascii').rstrip()
 
-        if (ser == 1):
-            #line = ser.readline().decode('ascii').rstrip()
+        if (line == "1"):
             # print(line)
             print("nowa wiadomosc")
             #c = int(line)
