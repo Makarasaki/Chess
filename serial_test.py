@@ -6,8 +6,9 @@ if __name__ == '__main__':
     ser.reset_input_buffer()
     c = 0
     while True:
-        ser.write(c.encode('ascii'))
+        ser.write(str(c).encode('ascii'))
         line = ser.readline().decode('utf-8').rstrip()
-        c = int(line) + 1
-        print(line)
+        c = int(line)
+        c = c + 1
+        print(str(c))
         time.sleep(1)
