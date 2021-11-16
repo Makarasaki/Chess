@@ -8,7 +8,7 @@ if __name__ == '__main__':
     print(c)
     print("zaczynamy:")
     while True:
-        line = str(c)  # + "\n"
+        line = str(c) + "\n"
         ser.write(line.encode('ascii'))
 
         line = ser.readline().decode('ascii').rstrip()
