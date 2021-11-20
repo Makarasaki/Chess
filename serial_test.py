@@ -5,9 +5,10 @@ if __name__ == '__main__':
     ser = serial.Serial('/dev/ttyUSB0', 38400, timeout=1)
     ser.reset_input_buffer()
     c = 1
-    print(c)
+    # print(c)
     print("zaczynamy:")
     while True:
+        print(c)
         line = str(c) + "\n"
         ser.write(line.encode('ascii'))
 
@@ -16,4 +17,4 @@ if __name__ == '__main__':
         if (line == "1"):
             #print("nowa wiadomosc")
             c = c+1
-            print(c)
+            # print(c)
