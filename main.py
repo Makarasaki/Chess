@@ -23,7 +23,7 @@ if __name__ == '__main__':
     c = 1
     # print(c)
     print("zaczynamy:")
-
+    r = sr.Recognizer()
     pixels = APA102(3)
 
     while True:
@@ -36,18 +36,24 @@ if __name__ == '__main__':
         pixels.set_pixel(0, 0, 0, 0, 0)
         pixels.set_pixel(0, 10, 10, 0, 50)
         pixels.show()
-        time.sleep(3)
+        # time.sleep(3)
+        with sr.Microphone() as source:
+            print("say something!")
+            audio = r.listen(source, 4, 4)
+            line = r.recognize_google(audio)  # , language="pl")
         pixels.clear_strip()
 
-        print(c)
-        line = str(c) + "\n"
+        print(line)
+        # print(c)
+        # line = str(c) + "\n"
         ser.write(line.encode('ascii'))
 
-        line = ser.readline().decode('ascii').rstrip()
+        while (ser.readline().decode('ascii').rstrip() != "1"):
+            pass
 
-        if (line == "1"):
+        # if (response == "1"):
             #print("nowa wiadomosc")
-            c = c+1
+            # c = c+1
             # print(c)
 
 
