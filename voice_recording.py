@@ -18,16 +18,18 @@ r = sr.Recognizer()
 
 
 def first_field():
-    while(GPIO.input(BUTTON) == 1):
-        pass
-    pixels.listening_1f()
+    flag = 0
+    while(flag == 0):
+        while(GPIO.input(BUTTON) == 1):
+            pass
+        pixels.listening_1f()
 
-    try:
-        with sr.Microphone() as source:
-            print("Podaj pierwsze pole")
-            audio = r.listen(source, 3, 3)
-            field_1 = r.recognize_google(audio, language="pl")
-            return field_1
-    except:
-        print("error, try again")
-        first_field()
+        try:
+            with sr.Microphone() as source:
+                print("Podaj pierwsze pole")
+                audio = r.listen(source, 3, 3)
+                field_1 = r.recognize_google(audio, language="pl")
+                flag = 1
+                return field_1
+        except:
+            print("error, try again")
