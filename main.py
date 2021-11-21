@@ -9,13 +9,15 @@ import serial
 import spidev
 from LED import *
 from apa102 import *
+from Fields import *
 from math import ceil
+from voice_recording import *
 
 BUTTON = 17
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(BUTTON, GPIO.IN)
-pixels = Pixels()
+# pixels = Pixels()
 
 if __name__ == '__main__':
     ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
@@ -23,50 +25,43 @@ if __name__ == '__main__':
     c = 1
     # print(c)
     print("zaczynamy:")
-    r = sr.Recognizer()
+    # r = sr.Recognizer()
     pixels = APA102(3)
+    pixels.set_pixel(0, 0, 0, 0, 0)
+    pixels.clear_strip()
 
     while True:
 
-        while(GPIO.input(BUTTON) == 1):
-            pass
+        # while(GPIO.input(BUTTON) == 1):
+        #     pass
+        # pixels.listening_1f()
+        # # time.sleep(3)
+        # try:
+        #     with sr.Microphone() as source:
+        #         print("Podaj pierwsze pole")
+        #         audio = r.listen(source, 3, 3)
+        #         field_1 = r.recognize_google(audio, language="pl")
+        # except:
+        #     print("error")
+        # pixels.listening_1f()
+        field_1 = first_field()
 
-        # if(GPIO.input(BUTTON) == 0):
-        print("Hello World!")
-        pixels.set_pixel(0, 0, 0, 0, 0)
-        pixels.set_pixel(0, 10, 10, 0, 50)
-        pixels.show()
-        # time.sleep(3)
-        with sr.Microphone() as source:
-            print("say something!")
-            audio = r.listen(source, 4, 4)
-            line = r.recognize_google(audio)  # , language="pl")
-        pixels.clear_strip()
+        print("pole 1="+field_1)
+        pixels.listening_2f()
 
-        print(line)
-        # print(c)
-        # line = str(c) + "\n"
-        ser.write(line.encode('ascii'))
+        try:
+            with sr.Microphone() as source:
+                print("Podaj drugie pole")
+                audio = r.listen(source, 3, 3)
+                field_2 = r.recognize_google(audio, language="pl")
+        except:
+            print("error")
+
+        pixels.movement()
+        print("pole 2="+field_2)
+
+        ser.write(field_1.encode('ascii'))
 
         while (ser.readline().decode('ascii').rstrip() != "1"):
             pass
-
-        # if (response == "1"):
-            #print("nowa wiadomosc")
-            # c = c+1
-            # print(c)
-
-
-# print("Hello World!")
-# r = sr.Recognizer()
-
-# with sr.Microphone() as source:
-#     print("say something!")
-#     audio = r.listen(source, 10, 10)
-
-# try:
-#     print("tekst:" + r.recognize_google(audio, language="pl"))
-# except sr.UnknownValueError:
-#     print("dupa")
-# except sr.RequestError as e:
-#     print("lipa;{0}".format(e))
+        pixels.done_movement()

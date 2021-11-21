@@ -145,6 +145,28 @@ class APA102:
             self.set_pixel(led, 0, 0, 0)
         self.show()
 
+    def listening_1f(self):
+        self.clear_strip()
+        self.set_pixel(0, 10, 10, 0, 50)
+        self.show()
+
+    def error_listening_1f(self):
+        pass
+
+    def listening_2f(self):
+        self.set_pixel(0, 0, 10, 0, 50)
+        self.set_pixel(1, 10, 10, 0, 50)
+        self.show()
+
+    def movement(self):
+        self.set_pixel(1, 0, 10, 0, 50)
+        self.set_pixel(2, 10, 10, 0, 50)
+        self.show()
+
+    def done_movement(self):
+        self.set_pixel(2, 0, 10, 0, 50)
+        self.show()
+
     def set_pixel(self, led_num, red, green, blue, bright_percent=100):
         """Sets the color of one pixel in the LED stripe.
 
