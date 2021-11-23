@@ -32,21 +32,9 @@ if __name__ == '__main__':
 
     while True:
 
-        # while(GPIO.input(BUTTON) == 1):
-        #     pass
-        # pixels.listening_1f()
-        # # time.sleep(3)
-        # try:
-        #     with sr.Microphone() as source:
-        #         print("Podaj pierwsze pole")
-        #         audio = r.listen(source, 3, 3)
-        #         field_1 = r.recognize_google(audio, language="pl")
-        # except:
-        #     print("error")
-        # pixels.listening_1f()
         field_1 = first_field()
 
-        print("pole 1="+field_1)
+        print("środek pola 1=" + str(eval(str.upper(field_1)).X_center))
         pixels.listening_2f()
 
         try:
@@ -58,7 +46,7 @@ if __name__ == '__main__':
             print("error")
 
         pixels.movement()
-        print("pole 2="+field_2)
+        print("kąt pola 2=" + str(eval(str.upper(field_2)).X_corner))
 
         ser.write(field_1.encode('ascii'))
 
