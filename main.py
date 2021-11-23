@@ -15,6 +15,9 @@ from voice_recording import *
 
 BUTTON = 17
 
+X_pos = 0
+Y_pos = 0
+
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(BUTTON, GPIO.IN)
 # pixels = Pixels()
@@ -28,28 +31,31 @@ if __name__ == '__main__':
     # r = sr.Recognizer()
     pixels = APA102(3)
     pixels.set_pixel(0, 0, 0, 0, 0)
-    pixels.clear_strip()
 
     while True:
+        pixels.clear_strip()
 
-        field_1 = first_field()
+        field_1 = listen_field(1)
 
+        print("Pole 1=" + field_1)
         print("środek pola 1=" + str(eval(str.upper(field_1)).X_center))
-        pixels.listening_2f()
 
-        try:
-            with sr.Microphone() as source:
-                print("Podaj drugie pole")
-                audio = r.listen(source, 3, 3)
-                field_2 = r.recognize_google(audio, language="pl")
-        except:
-            print("error")
+        # pixels.listening_2f()
 
-        pixels.movement()
-        print("kąt pola 2=" + str(eval(str.upper(field_2)).X_corner))
+        field_2 = listen_field(2)
 
-        ser.write(field_1.encode('ascii'))
+        print("Pole 2=" + field_2)
+        print("środek pola 2=" + str(eval(str.upper(field_2)).X_center))
+
+        pixels.set_pixel_rgb(2, 0x0000FF, 10)
+        pixels.show()
+
+        message = msg_gen(eval(field_1).X_center, eval(
+            field_1).Y_center, eval(field_1).state)
+
+        ser.write(message.encode('ascii'))
 
         while (ser.readline().decode('ascii').rstrip() != "1"):
             pass
-        pixels.done_movement()
+        pixels.set_pixel_rgb(2, 0x00FF00, 10)
+        pixels.show()
