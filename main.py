@@ -12,6 +12,7 @@ from apa102 import *
 from Fields import *
 from math import ceil
 from voice_recording import *
+import chess
 
 # BUTTON = 17
 
@@ -33,10 +34,19 @@ if __name__ == '__main__':
     pixels.set_pixel(0, 0, 0, 0, 0)
 
     # tymczasowe homeowanie
-    message = msg_gen(0, 0, 0)
+    message = msg_gen(3, 3, 0)
     ser.write(message.encode('ascii'))
     while (ser.readline().decode('ascii').rstrip() != "1"):
-        pass
+        ser.write(message.encode('ascii'))
+        # pass
+
+    board = chess.Board()
+    print(board.legal_moves)
+    print(chess.Move.from_uci("e7e5") in board.legal_moves)
+    print(board)
+    ruch = chess.Move.from_uci("e7e5")
+    board.push(ruch)  # Make the move
+    print(board)
 
     while True:
 
@@ -51,7 +61,6 @@ if __name__ == '__main__':
         # pixels.listening_2f()
 
         field_2 = listen_field(2)
-        pixels.show()
 
         print("Pole 2=" + field_2)
         print("środek pola 2=" + str(eval(field_2).X_center))
@@ -119,6 +128,9 @@ if __name__ == '__main__':
         ser.write(message.encode('ascii'))
         while (ser.readline().decode('ascii').rstrip() != "1"):
             pass
+
+        eval(field_1).state = 0
+        eval(field_2).state = 1
 
         pixels.set_pixel_rgb(2, 0x00FF00, 1)
         pixels.show()
