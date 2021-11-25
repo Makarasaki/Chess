@@ -33,7 +33,8 @@ def listen_field(field_n):
             with sr.Microphone() as source:
                 print("Podaj {} pole".format(field_n))
                 audio = r.listen(source, 0x0000FF, 3)
-                field = str.upper(r.recognize_google(audio, language="pl"))
+                field = str.lower(r.recognize_google(audio, language="pl"))
+                field = field[0]+field[-1]
                 if field in all_fields:
                     flag = 1
                     pixels.set_pixel_rgb(field_n-1, 0x00FF00, 1)

@@ -19,6 +19,8 @@ import chess
 X_pos = 0
 Y_pos = 0
 
+legal = 0
+
 # GPIO.setmode(GPIO.BCM)
 # GPIO.setup(BUTTON, GPIO.IN)
 # pixels = Pixels()
@@ -41,11 +43,11 @@ if __name__ == '__main__':
         # pass
 
     board = chess.Board()
-    print(board.legal_moves)
-    print(chess.Move.from_uci("e7e5") in board.legal_moves)
-    print(board)
-    ruch = chess.Move.from_uci("e7e5")
-    board.push(ruch)  # Make the move
+    # print(board.legal_moves)
+    # print(chess.Move.from_uci("e7e5") in board.legal_moves)
+    # print(board)
+    # ruch = chess.Move.from_uci("e7e5")
+    # board.push(ruch)  # Make the move
     print(board)
 
     while True:
@@ -53,17 +55,28 @@ if __name__ == '__main__':
         pixels.set_pixel(0, 0, 0, 0, 0)
         pixels.clear_strip()
 
-        field_1 = listen_field(1)
+        while (legal != 1):
+            field_1 = listen_field(1)
+            print("Pole 1=" + field_1)
+            # print("środek pola 1=" + str(eval(field_1).X_center))
+            # pixels.listening_2f()
+            field_2 = listen_field(2)
+            if chess.Move.from_uci(str.lower(field_1)+str.lower(field_2)) in board.legal_moves:
+                legal = 1
+                break
+            else:
+                pixels.set_pixel_rgb(0, 0xFF0000, 1)
+                pixels.set_pixel_rgb(1, 0xFF0000, 1)
+                pixels.show()
+                print("nielegalny ruch")
+                legal = 0
 
-        print("Pole 1=" + field_1)
-        print("środek pola 1=" + str(eval(field_1).X_center))
-
-        # pixels.listening_2f()
-
-        field_2 = listen_field(2)
+        legal = 0
+        board.push(chess.Move.from_uci(field_1+field_2))
+        print(board)
 
         print("Pole 2=" + field_2)
-        print("środek pola 2=" + str(eval(field_2).X_center))
+        # print("środek pola 2=" + str(eval(field_2).X_center))
 
         pixels.set_pixel_rgb(0, 0x00FF00, 1)
         pixels.set_pixel_rgb(1, 0x00FF00, 1)
