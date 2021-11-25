@@ -7,7 +7,6 @@ import RPi.GPIO as GPIO
 import time
 import serial
 import spidev
-from LED import *
 from apa102 import *
 from Fields import *
 from math import ceil
