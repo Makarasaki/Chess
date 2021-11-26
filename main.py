@@ -47,7 +47,13 @@ if __name__ == '__main__':
             field_2 = listen_field(2)
             print("Pole 2=" + field_2)
 
-            if chess.Move.from_uci(str.lower(field_1)+str.lower(field_2)) in board.legal_moves:
+            move = "0000" if field_1[0] + field_1[1] == field_2[0] + \
+                field_2[1] else field_1 + field_2
+            print("Twój ruch:" + move)
+
+            print(board.legal_moves)
+
+            if chess.Move.from_uci(move) in board.legal_moves:
                 legal = 1
                 break
             else:
