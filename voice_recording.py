@@ -1,14 +1,14 @@
-import sys
-import pyaudio
-import wave
+# import sys
+# import pyaudio
+# import wave
+# from math import ceil
+# import serial
+# import spidev
+# import time
 import speech_recognition as sr
 import RPi.GPIO as GPIO
-import time
-import serial
-import spidev
 from apa102 import *
 from Fields import *
-from math import ceil
 from main import *
 
 pixels = APA102(3)
