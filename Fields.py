@@ -1,5 +1,3 @@
-
-
 class Field:
 
     Field_len = 4

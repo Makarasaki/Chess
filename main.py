@@ -13,12 +13,10 @@ from math import ceil
 from voice_recording import *
 import chess
 
-X_pos = 0
-Y_pos = 0
 
-legal = 0
+def main():
+    legal = 0
 
-if __name__ == '__main__':
     ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
     ser.reset_input_buffer()
 
@@ -137,3 +135,7 @@ if __name__ == '__main__':
         pixels.set_pixel_rgb(2, 0x00FF00, 1)
         pixels.show()
         time.sleep(1)
+
+
+if __name__ == '__main__':
+    main()
