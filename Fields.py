@@ -8,8 +8,8 @@ class Field:
         self.X_corner = X_pos * self.Field_len
         self.Y_corner = Y_pos * self.Field_len
         self.state = state
-        self.X_dump = 8*self.Field_len
-        self.Y_dump = 4*self.Field_len
+        self.X_dump = 8 * self.Field_len
+        self.Y_dump = 4 * self.Field_len
 
 
 all_fields = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8",

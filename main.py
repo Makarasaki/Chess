@@ -1,4 +1,4 @@
-#from _typeshed import Self
+# from _typeshed import Self
 # import sys
 # import pyaudio
 # import wave
@@ -75,11 +75,20 @@ def main():
         pixels.show()
 
         # Jeśli bicie
-        if eval(field_2).state == 1:
+        if move == "e1g1":
+            castling_white_short(ser)
+        elif move == "e1c1":
+            castling_white_long(ser)
+        elif move == "e8g8":
+            castling_black_short(ser)
+        elif move == "e8c8":
+            castling_black_long(ser)
+        elif eval(field_2).state == 1:
             capture(field_2, ser)
-
-        # Ruch z pola 1 na pole 2
-        regular_move(field_1, field_2, ser)
+            # Ruch z pola 1 na pole 2
+            regular_move(field_1, field_2, ser)
+        else:
+            regular_move(field_1, field_2, ser)
 
         eval(field_1).state = 0
         eval(field_2).state = 1
@@ -94,60 +103,61 @@ if __name__ == '__main__':
 
 
 def capture(field_2, ser):
-    # podjazd pod bite pole bez magnesu
-    message = msg_gen(eval(field_2).X_center,
-                      eval(field_2).Y_center, 0)
-    ser.write(message.encode('ascii'))
-    while (ser.readline().decode('ascii').rstrip() != "1"):
-        pass
-
-    # załączenie magnesu, podjechanie do kąta
-    message = msg_gen(eval(field_2).X_corner,
-                      eval(field_2).Y_corner, 1)
-    ser.write(message.encode('ascii'))
-    while (ser.readline().decode('ascii').rstrip() != "1"):
-        pass
-
-    # podjechanie do pozycji X śmietnika
-    message = msg_gen(eval(field_2).X_dump, eval(field_2).Y_corner, 1)
-    ser.write(message.encode('ascii'))
-    while (ser.readline().decode('ascii').rstrip() != "1"):
-        pass
-
-    # podjechanie do pozycji Y śmietnika
-    message = msg_gen(eval(field_2).X_dump, eval(field_2).Y_dump, 1)
-    ser.write(message.encode('ascii'))
-    while (ser.readline().decode('ascii').rstrip() != "1"):
-        pass
+    movement(eval(field_2).X_center, eval(field_2).Y_center, 0, ser)
+    movement(eval(field_2).X_corner, eval(field_2).Y_corner, 1, ser)
+    movement(eval(field_2).X_dump, eval(field_2).Y_corner, 1, ser)
+    movement(eval(field_2).X_dump, eval(field_2).Y_dump, 1, ser)
 
 
 def regular_move(field_1, field_2, ser):
-    # wyłączenie magnesu i podjechanie pod pierwsze pole
-    message = msg_gen(eval(field_1).X_center, eval(field_1).Y_center, 0)
-    ser.write(message.encode('ascii'))
-    while (ser.readline().decode('ascii').rstrip() != "1"):
-        pass
+    movement(eval(field_1).X_center, eval(field_1).Y_center, 0, ser)
+    movement(eval(field_1).X_corner, eval(field_1).Y_corner, 1, ser)
+    movement(eval(field_2).X_corner, eval(field_1).Y_corner, 1, ser)
+    movement(eval(field_2).X_corner, eval(field_2).Y_corner, 1, ser)
+    movement(eval(field_2).X_center, eval(field_2).Y_center, 1, ser)
 
-    # włączenie magnesu i podjechanie do kąta
-    message = msg_gen(eval(field_1).X_corner, eval(field_1).Y_corner, 1)
-    ser.write(message.encode('ascii'))
-    while (ser.readline().decode('ascii').rstrip() != "1"):
-        pass
 
-    # włączenie magnesu i podjechanie pozycji X kąta drugiego pola
-    message = msg_gen(eval(field_2).X_corner, eval(field_1).Y_corner, 1)
-    ser.write(message.encode('ascii'))
-    while (ser.readline().decode('ascii').rstrip() != "1"):
-        pass
+def castling_white_short(ser):
+    movement(eval("e1").X_center, eval("e1").Y_center, 0, ser)
+    movement(eval("e1").X_corner, eval("e1").Y_corner, 1, ser)
+    movement(eval("h1").X_center, eval("h1").Y_center, 0, ser)
+    movement(eval("f1").X_center, eval("f1").Y_center, 1, ser)
+    movement(eval("e1").X_corner, eval("e1").Y_corner, 0, ser)
+    movement(eval("g1").X_corner, eval("g1").Y_corner, 1, ser)
+    movement(eval("g1").X_center, eval("g1").Y_center, 1, ser)
 
-    # włączenie magnesu i podjechanie pozycji Y kąta drugiego pola
-    message = msg_gen(eval(field_2).X_corner, eval(field_2).Y_corner, 1)
-    ser.write(message.encode('ascii'))
-    while (ser.readline().decode('ascii').rstrip() != "1"):
-        pass
 
-    # włączenie magnesu i podjechanie środka drugiego pola
-    message = msg_gen(eval(field_2).X_center, eval(field_2).Y_center, 1)
-    ser.write(message.encode('ascii'))
+def castling_white_long(ser):
+    movement(eval("e1").X_center, eval("e1").Y_center, 0, ser)
+    movement(eval("e1").X_corner, eval("e1").Y_corner, 1, ser)
+    movement(eval("a1").X_center, eval("a1").Y_center, 0, ser)
+    movement(eval("d1").X_center, eval("d1").Y_center, 1, ser)
+    movement(eval("e1").X_corner, eval("e1").Y_corner, 0, ser)
+    movement(eval("c1").X_corner, eval("c1").Y_corner, 1, ser)
+    movement(eval("c1").X_center, eval("c1").Y_center, 1, ser)
+
+
+def castling_black_short(ser):
+    movement(eval("e8").X_center, eval("e8").Y_center, 0, ser)
+    movement(eval("e8").X_corner, eval("e8").Y_corner, 1, ser)
+    movement(eval("h8").X_center, eval("h8").Y_center, 0, ser)
+    movement(eval("f8").X_center, eval("f8").Y_center, 1, ser)
+    movement(eval("e8").X_corner, eval("e8").Y_corner, 0, ser)
+    movement(eval("g8").X_corner, eval("g8").Y_corner, 1, ser)
+    movement(eval("g8").X_center, eval("g8").Y_center, 1, ser)
+
+
+def castling_black_long(ser):
+    movement(eval("e8").X_center, eval("e8").Y_center, 0, ser)
+    movement(eval("e8").X_corner, eval("e8").Y_corner, 1, ser)
+    movement(eval("a8").X_center, eval("a8").Y_center, 0, ser)
+    movement(eval("d8").X_center, eval("d8").Y_center, 1, ser)
+    movement(eval("e8").X_corner, eval("e8").Y_corner, 0, ser)
+    movement(eval("c8").X_corner, eval("c8").Y_corner, 1, ser)
+    movement(eval("c8").X_center, eval("c8").Y_center, 1, ser)
+
+
+def movement(X, Y, M, ser):
+    ser.write(msg_gen(X, Y, M).encode('ascii'))
     while (ser.readline().decode('ascii').rstrip() != "1"):
         pass
