@@ -25,11 +25,7 @@ def main():
     pixels.set_pixel(0, 0, 0, 0, 0)
 
     # tymczasowe homeowanie
-    message = msg_gen(3, 3, 0)
-    ser.write(message.encode('ascii'))
-    while (ser.readline().decode('ascii').rstrip() != "1"):
-        ser.write(message.encode('ascii'))
-        # pass
+    movement(3, 3, 0, ser)
 
     board = chess.Board()
     print(board)
