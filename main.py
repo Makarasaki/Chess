@@ -25,7 +25,12 @@ def main():
     pixels.set_pixel(0, 0, 0, 0, 0)
 
     # tymczasowe homeowanie
-    movement(3, 3, 0, ser)
+
+    while(GPIO.input(BUTTON) == 1):
+        pass
+
+    movement(1, 1, 0, ser)
+    # home(ser)
 
     board = chess.Board()
     print(board)
@@ -155,5 +160,11 @@ def castling_black_long(ser):
 
 def movement(X, Y, M, ser):
     ser.write(msg_gen(X, Y, M).encode('ascii'))
+    while (ser.readline().decode('ascii').rstrip() != "1"):
+        pass
+
+
+def home(ser):
+    ser.write("Home".encode('ascii'))
     while (ser.readline().decode('ascii').rstrip() != "1"):
         pass
