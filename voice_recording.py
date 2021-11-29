@@ -47,3 +47,32 @@ def listen_field(field_n):
             pixels.set_pixel_rgb(field_n-1, 0xFF0000, 1)
             pixels.show()
             print("error, try again")
+
+
+def listen(argument1, argument2):
+    flag = 0
+    pixels.set_pixel_rgb(0, 0x00FF00, 1)
+    pixels.set_pixel_rgb(1, 0x000000, 1)
+    pixels.show()
+    while(flag == 0):
+        while(GPIO.input(BUTTON) == 1):
+            pass
+        pixels.set_pixel_rgb(0, 0x0000FF, 1)
+        pixels.show()
+        try:
+            with sr.Microphone() as source:
+                print("wybierz:"+argument1 + "/" + argument2)
+                audio = r.listen(source, 0x0000FF, 3)
+                mode = str.lower(r.recognize_google(audio, language="pl"))
+                if mode in [argument1, argument2]:
+                    flag = 1
+                    print(mode)
+                    pixels.set_pixel_rgb(0, 0x00FF00, 1)
+                    pixels.show()
+                    return mode
+                else:
+                    pixels.set_pixel_rgb(0, 0xFF0000, 1)
+                    pixels.show()
+                    print("Error")
+        except:
+            print("error, try again")
