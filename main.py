@@ -215,11 +215,16 @@ def capture(field_2, ser):
     movement(eval(field_2).X_dump, eval(field_2).Y_dump, 1, ser)
 
 
-def regular_move(field_1, field_2, ser):
+def knight_move(field_1, field_2, ser):
     movement(eval(field_1).X_center, eval(field_1).Y_center, 0, ser)
     movement(eval(field_1).X_corner, eval(field_1).Y_corner, 1, ser)
     movement(eval(field_2).X_corner, eval(field_1).Y_corner, 1, ser)
     movement(eval(field_2).X_corner, eval(field_2).Y_corner, 1, ser)
+    movement(eval(field_2).X_center, eval(field_2).Y_center, 1, ser)
+
+
+def regular_move(field_1, field_2, ser):
+    movement(eval(field_1).X_center, eval(field_1).Y_center, 0, ser)
     movement(eval(field_2).X_center, eval(field_2).Y_center, 1, ser)
 
 
