@@ -1,5 +1,6 @@
 class Field:
 
+    legal = 0
     Field_len = 4
 
     def __init__(self, X_pos, Y_pos, state):

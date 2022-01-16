@@ -24,13 +24,8 @@ def human():
     pixels = APA102(3)
     pixels.set_pixel(0, 0, 0, 0, 0)
 
-    # while(GPIO.input(BUTTON) == 1):
-    #     pass
-
     # tymczasowe homeowanie
-    movement(1, 1, 0, ser)
-    # home(ser)
-    engine = chess.engine.SimpleEngine.popen_uci("/usr/games/stockfish")
+    home(ser)
     board = chess.Board()
     print(board)
 
@@ -65,7 +60,7 @@ def human():
                 legal = 0
 
         legal = 0
-        print("ostateczny ruch:"+move)
+        print("ostateczny ruch:" + move)
         board.push(move_ch)
         print(board)
 
@@ -74,24 +69,7 @@ def human():
         pixels.set_pixel_rgb(2, 0x0000FF, 1)
         pixels.show()
 
-        # Jeśli bicie
-        if move == "e1g1":
-            castling_white_short(ser)
-        elif move == "e1c1":
-            castling_white_long(ser)
-        elif move == "e8g8":
-            castling_black_short(ser)
-        elif move == "e8c8":
-            castling_black_long(ser)
-        elif eval(field_2).state == 1:
-            capture(field_2, ser)
-            # Ruch z pola 1 na pole 2
-            regular_move(field_1, field_2, ser)
-        else:
-            regular_move(field_1, field_2, ser)
-
-        eval(field_1).state = 0
-        eval(field_2).state = 1
+        move_exe(move, field_1, field_2, ser)
 
         pixels.set_pixel_rgb(2, 0x00FF00, 1)
         pixels.show()
@@ -108,8 +86,7 @@ def engine():
     pixels.set_pixel(0, 0, 0, 0, 0)
 
     # tymczasowe homeowanie
-    movement(1, 1, 0, ser)
-    # home(ser)
+    home(ser)
     engine = chess.engine.SimpleEngine.popen_uci("/usr/games/stockfish")
     board = chess.Board()
 
@@ -119,9 +96,14 @@ def engine():
     print(board)
 
     if color == "czarny":
+        # ruch silnika
         engine_move = engine.play(board, chess.engine.Limit(time=0.1))
+        field_1 = engine_move.move[0] + engine_move.move[1]
+        field_2 = engine_move.move[2] + engine_move.move[3]
+        move_exe(engine_move.move, field_1, field_2, ser)
         board.push(engine_move.move)
         print("ruch silnika:")
+        print(engine_move.move)
         print(board)
 
     while True:
@@ -164,30 +146,17 @@ def engine():
         pixels.set_pixel_rgb(2, 0x0000FF, 1)
         pixels.show()
 
-        # Jeśli bicie
-        if move == "e1g1":
-            castling_white_short(ser)
-        elif move == "e1c1":
-            castling_white_long(ser)
-        elif move == "e8g8":
-            castling_black_short(ser)
-        elif move == "e8c8":
-            castling_black_long(ser)
-        elif eval(field_2).state == 1:
-            capture(field_2, ser)
-            # Ruch z pola 1 na pole 2
-            regular_move(field_1, field_2, ser)
-        else:
-            regular_move(field_1, field_2, ser)
-
-        eval(field_1).state = 0
-        eval(field_2).state = 1
+        move_exe(move, field_1, field_2, ser)
 
         pixels.set_pixel_rgb(2, 0x00FF00, 1)
         pixels.show()
         time.sleep(1)
 
+        # ruch silnika
         engine_move = engine.play(board, chess.engine.Limit(time=0.1))
+        field_1 = engine_move.move[0] + engine_move.move[1]
+        field_2 = engine_move.move[2] + engine_move.move[3]
+        move_exe(engine_move.move, field_1, field_2, ser)
         board.push(engine_move.move)
         print("ruch silnika:")
         print(board)
@@ -206,6 +175,31 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+def move_exe(move, field_1, field_2, ser):
+    if move == "e1g1":
+        castling_white_short(ser)
+    elif move == "e1c1":
+        castling_white_long(ser)
+    elif move == "e8g8":
+        castling_black_short(ser)
+    elif move == "e8c8":
+        castling_black_long(ser)
+    elif eval(field_2).state == 1:
+        capture(field_2, ser)
+        # Ruch z pola 1 na pole 2
+        if eval(field_1).state == 'h' or 'H':
+            regular_move(field_1, field_2, ser)
+        else:
+            knight_move(field_1, field_2, ser)
+    else:
+        if eval(field_1).state == 'h' or 'H':
+            regular_move(field_1, field_2, ser)
+        else:
+            knight_move(field_1, field_2, ser)
+    eval(field_1).state = 0
+    eval(field_2).state = eval(field_1).state
 
 
 def capture(field_2, ser):
@@ -269,14 +263,20 @@ def castling_black_long(ser):
 
 
 def movement(X, Y, M, ser):
-    # ser.write(msg_gen(X, Y, M).encode('ascii'))
-    # while (ser.readline().decode('ascii').rstrip() != "1"):
-    #     pass
-    pass
+    ser.write(msg_gen(X, Y, M).encode('ascii'))
+    while True:
+        if ser.readline().decode('ascii').rstrip() == "1":
+            print("git")
+            break
 
 
 def home(ser):
-    # ser.write("Home".encode('ascii'))
-    # while (ser.readline().decode('ascii').rstrip() != "1"):
-    #     pass
+    ser.write("Home".encode('ascii'))
+    while True:
+        if ser.readline().decode('ascii').rstrip() == "1":
+            print("git")
+            break
+
+
+def move_exe():
     pass
