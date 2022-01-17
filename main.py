@@ -25,7 +25,7 @@ def human():
     pixels.set_pixel(0, 0, 0, 0, 0)
 
     # tymczasowe homeowanie
-    home(ser)
+    # home(ser)
     board = chess.Board()
     print(board)
 
@@ -86,7 +86,7 @@ def engine():
     pixels.set_pixel(0, 0, 0, 0, 0)
 
     # tymczasowe homeowanie
-    home(ser)
+    # home(ser)
     engine = chess.engine.SimpleEngine.popen_uci("/usr/games/stockfish")
     board = chess.Board()
 
@@ -195,9 +195,9 @@ def move_exe(move, field_1, field_2, ser):
             knight_move(field_1, field_2, ser)
     else:
         if eval(field_1).state == 'h' or 'H':
-            regular_move(field_1, field_2, ser)
-        else:
             knight_move(field_1, field_2, ser)
+        else:
+            regular_move(field_1, field_2, ser)
     eval(field_1).state = 0
     eval(field_2).state = eval(field_1).state
 
@@ -265,6 +265,7 @@ def castling_black_long(ser):
 def movement(X, Y, M, ser):
     ser.write(msg_gen(X, Y, M).encode('ascii'))
     while True:
+        ser.write(msg_gen(X, Y, M).encode('ascii'))
         if ser.readline().decode('ascii').rstrip() == "1":
             print("git")
             break
@@ -273,10 +274,7 @@ def movement(X, Y, M, ser):
 def home(ser):
     ser.write("Home".encode('ascii'))
     while True:
+        ser.write("Home".encode('ascii'))
         if ser.readline().decode('ascii').rstrip() == "1":
             print("git")
             break
-
-
-def move_exe():
-    pass
