@@ -6,8 +6,10 @@ class Field:
     def __init__(self, X_pos, Y_pos, state):
         self.X_center = X_pos * self.Field_len + self.Field_len/2
         self.Y_center = Y_pos * self.Field_len + self.Field_len/2
-        self.X_corner = X_pos * self.Field_len
-        self.Y_corner = Y_pos * self.Field_len
+        self.X_corner = X_pos * self.Field_len if X_pos > 4 else (X_pos + 1) * \
+            self.Field_len
+        self.Y_corner = Y_pos * \
+            self.Field_len if Y_pos > 4 else (Y_pos + 1) * self.Field_len
         self.state = state
         self.X_dump = 8 * self.Field_len
         self.Y_dump = 4 * self.Field_len
