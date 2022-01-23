@@ -25,7 +25,7 @@ def human():
     pixels.set_pixel(0, 0, 0, 0, 0)
 
     # tymczasowe homeowanie
-    # home(ser)
+    home(ser)
     board = chess.Board()
     print(board)
 
@@ -86,7 +86,11 @@ def engine():
     pixels.set_pixel(0, 0, 0, 0, 0)
 
     # tymczasowe homeowanie
-    # home(ser)
+
+    ser.write("o".encode('ascii'))
+    time.sleep(3)
+
+    home(ser)
     engine = chess.engine.SimpleEngine.popen_uci("/usr/games/stockfish")
     board = chess.Board()
 
@@ -98,8 +102,8 @@ def engine():
     if color == "czarny":
         # ruch silnika
         engine_move = engine.play(board, chess.engine.Limit(time=0.1))
-        field_1 = engine_move.move[0] + engine_move.move[1]
-        field_2 = engine_move.move[2] + engine_move.move[3]
+        field_1 = str(engine_move.move)[0] + str(engine_move.move)[1]
+        field_2 = str(engine_move.move)[2] + str(engine_move.move)[3]
         move_exe(engine_move.move, field_1, field_2, ser)
         board.push(engine_move.move)
         print("ruch silnika:")
@@ -154,8 +158,8 @@ def engine():
 
         # ruch silnika
         engine_move = engine.play(board, chess.engine.Limit(time=0.1))
-        field_1 = engine_move.move[0] + engine_move.move[1]
-        field_2 = engine_move.move[2] + engine_move.move[3]
+        field_1 = str(engine_move.move[0]) + str(engine_move.move[1])
+        field_2 = str(engine_move.move[2]) + str(engine_move.move[3])
         move_exe(engine_move.move, field_1, field_2, ser)
         board.push(engine_move.move)
         print("ruch silnika:")
@@ -190,14 +194,14 @@ def move_exe(move, field_1, field_2, ser):
         capture(field_2, ser)
         # Ruch z pola 1 na pole 2
         if eval(field_1).state == 'h' or 'H':
-            regular_move(field_1, field_2, ser)
-        else:
             knight_move(field_1, field_2, ser)
+        else:
+            regular_move(field_1, field_2, ser)
     else:
         if eval(field_1).state == 'h' or 'H':
-            knight_move(field_1, field_2, ser)
-        else:
             regular_move(field_1, field_2, ser)
+        else:
+            knight_move(field_1, field_2, ser)
     eval(field_1).state = 0
     eval(field_2).state = eval(field_1).state
 
@@ -272,9 +276,8 @@ def movement(X, Y, M, ser):
 
 
 def home(ser):
-    ser.write("Home".encode('ascii'))
+    ser.write("H1 ".encode('ascii'))
     while True:
-        ser.write("Home".encode('ascii'))
         if ser.readline().decode('ascii').rstrip() == "1":
             print("git")
             break

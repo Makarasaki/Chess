@@ -98,4 +98,4 @@ h8 = Field(7, 7, 'r')
 
 
 def msg_gen(X_pos, Y_pos, M_state):
-    return "X{} Y{} M{}".format(X_pos, Y_pos, M_state)
+    return "X{} Y{} M{} ".format(X_pos, Y_pos, M_state)
