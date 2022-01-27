@@ -1,7 +1,7 @@
 class Field:
 
     legal = 0
-    Field_len = 4
+    Field_len = 50
 
     def __init__(self, X_pos, Y_pos, state):
         self.X_center = X_pos * self.Field_len + self.Field_len/2
@@ -33,14 +33,14 @@ a6 = Field(0, 5, 0)
 a7 = Field(0, 6, 'p')
 a8 = Field(0, 7, 'r')
 
-b1 = Field(1, 0, 'K')
+b1 = Field(1, 0, 'N')
 b2 = Field(1, 1, 'P')
 b3 = Field(1, 2, 0)
 b4 = Field(1, 3, 0)
 b5 = Field(1, 4, 0)
 b6 = Field(1, 5, 0)
 b7 = Field(1, 6, 'p')
-b8 = Field(1, 7, 'k')
+b8 = Field(1, 7, 'n')
 
 c1 = Field(2, 0, 'B')
 c2 = Field(2, 1, 'P')
@@ -60,14 +60,14 @@ d6 = Field(3, 5, 0)
 d7 = Field(3, 6, 'p')
 d8 = Field(3, 7, 'q')
 
-e1 = Field(4, 0, 'Ki')
+e1 = Field(4, 0, 'K')
 e2 = Field(4, 1, 'P')
 e3 = Field(4, 2, 0)
 e4 = Field(4, 3, 0)
 e5 = Field(4, 4, 0)
 e6 = Field(4, 5, 0)
 e7 = Field(4, 6, 'p')
-e8 = Field(4, 7, 'ki')
+e8 = Field(4, 7, 'k')
 
 f1 = Field(5, 0, 'B')
 f2 = Field(5, 1, 'P')
@@ -78,14 +78,14 @@ f6 = Field(5, 5, 0)
 f7 = Field(5, 6, 'p')
 f8 = Field(5, 7, 'b')
 
-g1 = Field(6, 0, 'K')
+g1 = Field(6, 0, 'N')
 g2 = Field(6, 1, 'P')
 g3 = Field(6, 2, 0)
 g4 = Field(6, 3, 0)
 g5 = Field(6, 4, 0)
 g6 = Field(6, 5, 0)
 g7 = Field(6, 6, 'p')
-g8 = Field(6, 7, 'k')
+g8 = Field(6, 7, 'n')
 
 h1 = Field(7, 0, 'R')
 h2 = Field(7, 1, 'P')

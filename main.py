@@ -101,7 +101,7 @@ def engine():
 
     if color == "czarny":
         # ruch silnika
-        engine_move = engine.play(board, chess.engine.Limit(time=0.1))
+        engine_move = engine.play(board, chess.engine.Limit(depth=1))
         field_1 = str(engine_move.move)[0] + str(engine_move.move)[1]
         field_2 = str(engine_move.move)[2] + str(engine_move.move)[3]
         move_exe(engine_move.move, field_1, field_2, ser)
@@ -157,9 +157,9 @@ def engine():
         time.sleep(1)
 
         # ruch silnika
-        engine_move = engine.play(board, chess.engine.Limit(time=0.1))
-        field_1 = str(engine_move.move[0]) + str(engine_move.move[1])
-        field_2 = str(engine_move.move[2]) + str(engine_move.move[3])
+        engine_move = engine.play(board, chess.engine.Limit(depth=1))
+        field_1 = str(engine_move.move)[0] + str(engine_move.move)[1]
+        field_2 = str(engine_move.move)[2] + str(engine_move.move)[3]
         move_exe(engine_move.move, field_1, field_2, ser)
         board.push(engine_move.move)
         print("ruch silnika:")
@@ -193,15 +193,15 @@ def move_exe(move, field_1, field_2, ser):
     elif eval(field_2).state == 1:
         capture(field_2, ser)
         # Ruch z pola 1 na pole 2
-        if eval(field_1).state == 'h' or 'H':
+        if eval(field_1).state in ('N', 'n'):
             knight_move(field_1, field_2, ser)
         else:
             regular_move(field_1, field_2, ser)
     else:
-        if eval(field_1).state == 'h' or 'H':
-            regular_move(field_1, field_2, ser)
-        else:
+        if eval(field_1).state in ('N', 'n'):
             knight_move(field_1, field_2, ser)
+        else:
+            regular_move(field_1, field_2, ser)
     eval(field_1).state = 0
     eval(field_2).state = eval(field_1).state
 
@@ -215,10 +215,15 @@ def capture(field_2, ser):
 
 def knight_move(field_1, field_2, ser):
     movement(eval(field_1).X_center, eval(field_1).Y_center, 0, ser)
+    print('srodek')
     movement(eval(field_1).X_corner, eval(field_1).Y_corner, 1, ser)
+    print('corner')
     movement(eval(field_2).X_corner, eval(field_1).Y_corner, 1, ser)
+    print('X corner')
     movement(eval(field_2).X_corner, eval(field_2).Y_corner, 1, ser)
+    print('Y corner')
     movement(eval(field_2).X_center, eval(field_2).Y_center, 1, ser)
+    print('srodek2')
 
 
 def regular_move(field_1, field_2, ser):
