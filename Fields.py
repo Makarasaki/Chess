@@ -1,7 +1,7 @@
 class Field:
 
     legal = 0
-    Field_len = 50
+    Field_len = 45
 
     def __init__(self, X_pos, Y_pos, state):
         self.X_center = X_pos * self.Field_len + self.Field_len/2

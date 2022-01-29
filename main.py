@@ -25,7 +25,9 @@ def human():
     pixels.set_pixel(0, 0, 0, 0, 0)
 
     # tymczasowe homeowanie
+    time.sleep(3)
     home(ser)
+    
     board = chess.Board()
     print(board)
 
@@ -86,11 +88,9 @@ def engine():
     pixels.set_pixel(0, 0, 0, 0, 0)
 
     # tymczasowe homeowanie
-
-    ser.write("o".encode('ascii'))
     time.sleep(3)
-
     home(ser)
+
     engine = chess.engine.SimpleEngine.popen_uci("/usr/games/stockfish")
     board = chess.Board()
 
