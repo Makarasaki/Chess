@@ -1,18 +1,20 @@
 class Field:
 
     legal = 0
-    Field_len = 45
+    Field_len = 47
+    offset_X = -(Field_len - 10)/2
+    offset_Y = 0
 
     def __init__(self, X_pos, Y_pos, state):
-        self.X_center = X_pos * self.Field_len + self.Field_len/2
-        self.Y_center = Y_pos * self.Field_len + self.Field_len/2
-        self.X_corner = X_pos * self.Field_len if X_pos > 4 else (X_pos + 1) * \
-            self.Field_len
-        self.Y_corner = Y_pos * \
-            self.Field_len if Y_pos > 4 else (Y_pos + 1) * self.Field_len
+        self.X_center = X_pos * self.Field_len + self.Field_len/2 + self.offset_X
+        self.Y_center = Y_pos * self.Field_len + self.Field_len/2 + self.offset_Y
+        self.X_corner = X_pos * self.Field_len + self.offset_X if X_pos > 4 else (X_pos + 1) * \
+            self.Field_len + self.offset_X
+        self.Y_corner = Y_pos * self.Field_len + self.offset_Y if Y_pos > 4 else (Y_pos + 1) * \
+            self.Field_len + self.offset_Y
         self.state = state
-        self.X_dump = 8 * self.Field_len
-        self.Y_dump = 4 * self.Field_len
+        self.X_dump = 8 * self.Field_len + self.offset_X
+        self.Y_dump = 4 * self.Field_len + self.offset_Y
 
 
 all_fields = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8",
