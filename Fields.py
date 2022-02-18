@@ -2,7 +2,7 @@ class Field:
 
     legal = 0
     Field_len = 47
-    offset_X = -(Field_len - 10)/2
+    offset_X = 5 - ((Field_len - 10)/2)
     offset_Y = 0
 
     def __init__(self, X_pos, Y_pos, state):
