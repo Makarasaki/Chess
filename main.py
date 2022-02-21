@@ -27,7 +27,7 @@ def human():
     # tymczasowe homeowanie
     time.sleep(3)
     home(ser)
-    
+
     board = chess.Board()
     print(board)
 
@@ -190,7 +190,7 @@ def move_exe(move, field_1, field_2, ser):
         castling_black_short(ser)
     elif move == "e8c8":
         castling_black_long(ser)
-    elif eval(field_2).state == 1:
+    elif eval(field_2).state != '0':
         capture(field_2, ser)
         # Ruch z pola 1 na pole 2
         if eval(field_1).state in ('N', 'n'):
