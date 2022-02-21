@@ -202,8 +202,9 @@ def move_exe(move, field_1, field_2, ser):
             knight_move(field_1, field_2, ser)
         else:
             regular_move(field_1, field_2, ser)
-    eval(field_1).state = 0
+
     eval(field_2).state = eval(field_1).state
+    eval(field_1).state = '0'
 
 
 def capture(field_2, ser):
@@ -222,13 +223,15 @@ def knight_move(field_1, field_2, ser):
     print('X corner')
     movement(eval(field_2).X_corner, eval(field_2).Y_corner, 1, ser)
     print('Y corner')
-    movement(eval(field_2).X_center, eval(field_2).Y_center, 1, ser)
+    movement(eval(field_2).X_center, eval(
+        field_2).Y_center - a1.jump_offset, 1, ser)
     print('srodek2')
 
 
 def regular_move(field_1, field_2, ser):
     movement(eval(field_1).X_center, eval(field_1).Y_center, 0, ser)
-    movement(eval(field_2).X_center, eval(field_2).Y_center, 1, ser)
+    movement(eval(field_2).X_center, eval(
+        field_2).Y_center - a1.jump_offset, 1, ser)
 
 
 def castling_white_short(ser):

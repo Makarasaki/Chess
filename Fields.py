@@ -4,6 +4,7 @@ class Field:
     Field_len = 47
     offset_X = 5 - ((Field_len - 10)/2)
     offset_Y = 0
+    jump_offset = 10
 
     def __init__(self, X_pos, Y_pos, state):
         self.X_center = X_pos * self.Field_len + self.Field_len/2 + self.offset_X
