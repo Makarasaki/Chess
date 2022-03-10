@@ -99,6 +99,13 @@ h6 = Field(7, 5, '0')
 h7 = Field(7, 6, 'p')
 h8 = Field(7, 7, 'r')
 
+# Pawn PA
+# Queen Qu
+# King KI
+# Knight KN
+# Rook RI
+# Bishop BI
+
 
 def msg_gen(X_pos, Y_pos, M_state):
     return "X{} Y{} M{} ".format(X_pos, Y_pos, M_state)

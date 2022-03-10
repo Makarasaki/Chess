@@ -5,6 +5,7 @@
 # import serial
 # import spidev
 # import time
+from genericpath import exists
 import speech_recognition as sr
 import RPi.GPIO as GPIO
 from apa102 import *
@@ -30,23 +31,31 @@ def listen_field(field_n):
 
         try:
             with sr.Microphone() as source:
-                print("Podaj {} pole".format(field_n))
+                print('Podaj {} pole'.format(field_n))
                 audio = r.listen(source, 0x0000FF, 3)
-                field = str.lower(r.recognize_google(audio, language="pl"))
-                field = field[0]+field[-1]
+                field = str.lower(r.recognize_google(audio, language='pl'))
+                if field in ['pion', 'skoczek', 'koń', 'kon', 'konik', 'goniec', 'wieża', 'królowa', 'królówka', 'hetman', 'król']:
+                    if field is 'pion':
+                        field = 'p'
+                    if field in ['skoczek', 'koń', 'kon', 'konik']:
+                        field = 'n'
+                    if field is 'goniec':
+                        field = 'b'
+                else:
+                    field = field[0]+field[-1]
                 if field in all_fields:
                     flag = 1
                     pixels.set_pixel_rgb(field_n-1, 0x00FF00, 1)
                     pixels.show()
                     return field
                 else:
-                    print("nie ma takiego pola:"+field)
+                    print('nie ma takiego pola:'+field)
                     pixels.set_pixel_rgb(field_n-1, 0xFF0000, 1)
                     pixels.show()
         except:
             pixels.set_pixel_rgb(field_n-1, 0xFF0000, 1)
             pixels.show()
-            print("error, try again")
+            print('error, try again')
 
 
 def listen(argument1, argument2):
@@ -61,9 +70,9 @@ def listen(argument1, argument2):
         pixels.show()
         try:
             with sr.Microphone() as source:
-                print("wybierz:"+argument1 + "/" + argument2)
+                print('wybierz:'+argument1 + '/' + argument2)
                 audio = r.listen(source, 0x0000FF, 3)
-                mode = str.lower(r.recognize_google(audio, language="pl"))
+                mode = str.lower(r.recognize_google(audio, language='pl'))
                 if mode in [argument1, argument2]:
                     flag = 1
                     print(mode)
@@ -73,6 +82,6 @@ def listen(argument1, argument2):
                 else:
                     pixels.set_pixel_rgb(0, 0xFF0000, 1)
                     pixels.show()
-                    print("Error")
+                    print('Error')
         except:
-            print("error, try again")
+            print('error, try again')
