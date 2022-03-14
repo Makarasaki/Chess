@@ -34,24 +34,31 @@ def listen_field(field_n):
                 print('Podaj {} pole'.format(field_n))
                 audio = r.listen(source, 0x0000FF, 3)
                 field = str.lower(r.recognize_google(audio, language='pl'))
-                if field in ['pion', 'skoczek', 'koń', 'kon', 'konik', 'goniec', 'wieża', 'królowa', 'królówka', 'hetman', 'król']:
+                if field_n == 1 and field in ['pion', 'skoczek', 'koń', 'kon', 'konik', 'goniec', 'wieża', 'królowa', 'królówka', 'hetman', 'król']:
                     if field is 'pion':
-                        field = 'p'
-                    if field in ['skoczek', 'koń', 'kon', 'konik']:
-                        field = 'n'
-                    if field is 'goniec':
-                        field = 'b'
-                else:
-                    field = field[0]+field[-1]
-                if field in all_fields:
-                    flag = 1
-                    pixels.set_pixel_rgb(field_n-1, 0x00FF00, 1)
-                    pixels.show()
+                        field = 'P'
+                    elif field in ['skoczek', 'koń', 'kon', 'konik']:
+                        field = 'N'
+                    elif field is 'goniec':
+                        field = 'B'
+                    elif field is 'król':
+                        field = 'K'
+                    elif field in ['królowa', 'królówka', 'hetman']:
+                        field = 'Q'
+                    elif field is 'wieża':
+                        field = 'R'
                     return field
                 else:
-                    print('nie ma takiego pola:'+field)
-                    pixels.set_pixel_rgb(field_n-1, 0xFF0000, 1)
-                    pixels.show()
+                    field = field[0]+field[-1]
+                    if field in all_fields:
+                        flag = 1
+                        pixels.set_pixel_rgb(field_n-1, 0x00FF00, 1)
+                        pixels.show()
+                        return field
+                    else:
+                        print('nie ma takiego pola:'+field)
+                        pixels.set_pixel_rgb(field_n-1, 0xFF0000, 1)
+                        pixels.show()
         except:
             pixels.set_pixel_rgb(field_n-1, 0xFF0000, 1)
             pixels.show()
