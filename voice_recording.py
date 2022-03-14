@@ -31,7 +31,7 @@ def listen_field(field_n):
 
         try:
             with sr.Microphone() as source:
-                print('Podaj {} pole'.format(field_n))
+                print(f"Podaj {field_n} pole")
                 audio = r.listen(source, 0x0000FF, 3)
                 field = str.lower(r.recognize_google(audio, language='pl'))
                 if field_n == 1 and field in ['pion', 'skoczek', 'koń', 'kon', 'konik', 'goniec', 'wieża', 'królowa', 'królówka', 'hetman', 'król']:
@@ -77,7 +77,7 @@ def listen(argument1, argument2):
         pixels.show()
         try:
             with sr.Microphone() as source:
-                print('wybierz:'+argument1 + '/' + argument2)
+                print(f"wybierz:{argument1}/{argument2}")
                 audio = r.listen(source, 0x0000FF, 3)
                 mode = str.lower(r.recognize_google(audio, language='pl'))
                 if mode in [argument1, argument2]:

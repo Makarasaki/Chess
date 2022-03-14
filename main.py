@@ -38,17 +38,16 @@ def human():
 
         while (legal != 1):
             field_1 = listen_field(1)
-            print("Pole 1=" + field_1)
+            print(f"Pole 1={field_1}")
 
             if field_1 in board.legal_moves:
                 move = field_1
             else:
                 field_2 = listen_field(2)
-                print("Pole 2=" + field_2)
+                print(f"Pole 2={field_2}")
 
-                move = "0000" if field_1[0] + field_1[1] == field_2[0] + \
-                    field_2[1] else field_1 + field_2
-                print("Twój ruch:" + move)
+                # move = "0000" if field_1 == field_2 else field_1 + field_2
+                print(f"Twój ruch:{move}")
 
             print(board.legal_moves)
 
@@ -65,7 +64,7 @@ def human():
                 legal = 0
 
         legal = 0
-        print("ostateczny ruch:" + move)
+        print(f"ostateczny ruch:{move}")
         board.push(move_ch)
         print(board)
 
@@ -126,10 +125,10 @@ def engine():
                 move = field_1
             else:
                 field_2 = listen_field(2)
-                print("Pole 2=" + field_2)
+                print(f"Pole 2={field_2}")
 
                 # move = "0000" if field_1 == field_2 else field_1 + field_2
-                print("Twój ruch:" + move)
+                print(f"Twój ruch:{move}")
 
             print(board.legal_moves)
 
@@ -146,7 +145,7 @@ def engine():
                 legal = 0
 
         legal = 0
-        print("ostateczny ruch:"+move)
+        print(f"ostateczny ruch:{move}")
         board.push(move_ch)
         print(board)
 
