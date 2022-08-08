@@ -6,6 +6,7 @@
 # import RPi.GPIO as GPIO
 # import spidev
 # from math import ceil
+from cmath import sqrt
 import time
 import serial
 from apa102 import *
@@ -13,6 +14,7 @@ from Fields import *
 from voice_recording import *
 import chess
 import chess.engine
+import math
 
 
 def human():
@@ -207,6 +209,27 @@ def move_exe(move, field_1, field_2, ser):
     eval(field_1).state = '0'
 
 
+def magnet_correction(field_1, field_2, position):
+    diagonal_correction_mm = 2
+    correction_mm = diagonal_correction_mm * sqrt(2)
+
+    if eval(field_1).X_center != eval(field_2).X_center:
+        if position == 1:
+            if eval(field_2).X_pos > 4:
+                return diagonal_correction_mm
+            else:
+                return -diagonal_correction_mm
+        if position == 1:
+            if eval(field_2).Y_pos > 4:
+                return diagonal_correction_mm
+            else:
+                return -diagonal_correction_mm
+    elif position == 1 and eval(field_1).Y_center == eval(field_2).Y_center:
+        return correction_mm if eval(field_1).X_pos < eval(field_2).X_pos else -correction_mm
+    elif position == 2 and eval(field_1).X_center == eval(field_2).X_center:
+        return correction_mm if eval(field_1).Y_pos < eval(field_2).Ypos else -correction_mm
+
+
 def capture(field_2, ser):
     movement(eval(field_2).X_center, eval(field_2).Y_center, 0, ser)
     movement(eval(field_2).X_corner, eval(field_2).Y_corner, 1, ser)
@@ -223,15 +246,15 @@ def knight_move(field_1, field_2, ser):
     print('X corner')
     movement(eval(field_2).X_corner, eval(field_2).Y_corner, 1, ser)
     print('Y corner')
-    movement(eval(field_2).X_center, eval(
-        field_2).Y_center - a1.jump_offset, 1, ser)
+    movement(eval(field_2).X_center + magnet_correction(field_1, field_2, 1), eval(
+        field_2).Y_center + magnet_correction(field_1, field_2, 2), 1, ser)
     print('srodek2')
 
 
 def regular_move(field_1, field_2, ser):
     movement(eval(field_1).X_center, eval(field_1).Y_center, 0, ser)
-    movement(eval(field_2).X_center, eval(
-        field_2).Y_center - a1.jump_offset, 1, ser)
+    movement(eval(field_2).X_center + magnet_correction(field_1, field_2, 1), eval(
+        field_2).Y_center + magnet_correction(field_1, field_2, 2), 1, ser)
 
 
 def castling_white_short(ser):

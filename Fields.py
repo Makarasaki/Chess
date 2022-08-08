@@ -1,10 +1,12 @@
 class Field:
 
-    legal = 0
+    # legal = 0
     Field_len = 47
     offset_X = 5 - ((Field_len - 10)/2)
     offset_Y = 0
-    jump_offset = 10
+    # jump_offset = 10
+    X_dump = 8 * Field_len + offset_X - 15
+    Y_dump = 4 * Field_len + offset_Y
 
     def __init__(self, X_pos, Y_pos, state):
         self.X_center = X_pos * self.Field_len + self.Field_len/2 + self.offset_X
@@ -14,8 +16,10 @@ class Field:
         self.Y_corner = Y_pos * self.Field_len + self.offset_Y if Y_pos > 4 else (Y_pos + 1) * \
             self.Field_len + self.offset_Y
         self.state = state
-        self.X_dump = 8 * self.Field_len + self.offset_X - 15
-        self.Y_dump = 4 * self.Field_len + self.offset_Y
+        self.X_pos = X_pos
+        self.Y_pos = Y_pos
+        # self.X_dump = 8 * self.Field_len + self.offset_X - 15
+        # self.Y_dump = 4 * self.Field_len + self.offset_Y
 
 
 all_fields = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8",
@@ -100,5 +104,5 @@ h7 = Field(7, 6, 'p')
 h8 = Field(7, 7, 'r')
 
 
-def msg_gen(X_pos, Y_pos, M_state):
-    return "X{} Y{} M{} ".format(X_pos, Y_pos, M_state)
+def msg_gen(X_pos_mm, Y_pos_mm, M_state):
+    return "X{} Y{} M{} ".format(X_pos_mm, Y_pos_mm, M_state)
