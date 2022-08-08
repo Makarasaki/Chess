@@ -170,6 +170,27 @@ def engine():
         print(board)
 
 
+def motor_reliability_test():
+    BUTTON = 17
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(BUTTON, GPIO.IN)
+    ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+    ser.reset_input_buffer()
+    outside_fields = ["a1", "d4", "a7", "g8", "f3", "a5", "c8", "b7", "h2", "e3", "c1",
+                      "a3", "g7", "g1", "d1", "f3", "h6", "b1", "a2", "e7", "a8", "h7", "a1", "koniec"]
+    # tymczasowe homeowanie
+    time.sleep(3)
+    home(ser)
+    i = 0
+    while True:
+        if outside_fields[i] != "koniec":
+            time.sleep(1)
+            print(outside_fields[i])
+            movement(eval(outside_fields[i]).X_corner,
+                     eval(outside_fields[i]).Y_corner, 1, ser)
+            i = i + 1
+
+
 def draw_chessboard():
     BUTTON = 17
     GPIO.setmode(GPIO.BCM)
@@ -210,7 +231,8 @@ def main():
     elif mode == "wieloosobowy":
         human()
     else:
-        draw_chessboard()
+        # draw_chessboard()
+        motor_reliability_test()
 
 
 if __name__ == '__main__':
