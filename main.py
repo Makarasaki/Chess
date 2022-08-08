@@ -8,6 +8,7 @@
 # from math import ceil
 from cmath import sqrt
 from ast import While
+import re
 import time
 import serial
 from apa102 import *
@@ -243,8 +244,8 @@ def move_exe(move, field_1, field_2, ser):
 
 
 def magnet_correction(field_1, field_2, position):
-    diagonal_correction_mm = 2
-    correction_mm = diagonal_correction_mm * sqrt(2)
+    diagonal_correction_mm = 2.0
+    correction_mm = 4.0
 
     if eval(field_1).X_center != eval(field_2).X_center:
         if position == 1:
@@ -252,15 +253,17 @@ def magnet_correction(field_1, field_2, position):
                 return diagonal_correction_mm
             else:
                 return -diagonal_correction_mm
-        if position == 1:
+        if position == 2:
             if eval(field_2).Y_pos > 4:
                 return diagonal_correction_mm
             else:
                 return -diagonal_correction_mm
+    elif position == 2 and eval(field_1).X_center == eval(field_2).X_center:
+        return correction_mm if eval(field_1).Y_pos < eval(field_2).Y_pos else -correction_mm
     elif position == 1 and eval(field_1).Y_center == eval(field_2).Y_center:
         return correction_mm if eval(field_1).X_pos < eval(field_2).X_pos else -correction_mm
-    elif position == 2 and eval(field_1).X_center == eval(field_2).X_center:
-        return correction_mm if eval(field_1).Y_pos < eval(field_2).Ypos else -correction_mm
+    else:
+        return 0
 
 
 def capture(field_2, ser):
@@ -279,6 +282,8 @@ def knight_move(field_1, field_2, ser):
     print('X corner')
     movement(eval(field_2).X_corner, eval(field_2).Y_corner, 1, ser)
     print('Y corner')
+    print(magnet_correction(field_1, field_2, 1))
+    print(magnet_correction(field_1, field_2, 2))
     movement(eval(field_2).X_center + magnet_correction(field_1, field_2, 1), eval(
         field_2).Y_center + magnet_correction(field_1, field_2, 2), 1, ser)
     print('srodek2')
@@ -286,8 +291,12 @@ def knight_move(field_1, field_2, ser):
 
 def regular_move(field_1, field_2, ser):
     movement(eval(field_1).X_center, eval(field_1).Y_center, 0, ser)
-    movement(eval(field_2).X_center + magnet_correction(field_1, field_2, 1), eval(
-        field_2).Y_center + magnet_correction(field_1, field_2, 2), 1, ser)
+    print(magnet_correction(field_1, field_2, 1))
+    print(magnet_correction(field_1, field_2, 2))
+    print(type(magnet_correction(field_1, field_2, 1)))
+    print(type(eval(field_1).X_center))
+    movement(eval(field_2).X_center + magnet_correction(field_1,
+             field_2, 1), eval(field_2).Y_center + magnet_correction(field_1, field_2, 2), 1, ser)
 
 
 def castling_white_short(ser):
