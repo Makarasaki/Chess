@@ -182,13 +182,12 @@ def motor_reliability_test():
     time.sleep(3)
     home(ser)
     i = 0
-    while True:
-        if outside_fields[i] != "koniec":
-            time.sleep(1)
-            print(outside_fields[i])
-            movement(eval(outside_fields[i]).X_corner,
-                     eval(outside_fields[i]).Y_corner, 1, ser)
-            i = i + 1
+    while outside_fields[i] != "koniec":
+        time.sleep(1)
+        print(outside_fields[i])
+        movement(eval(outside_fields[i]).X_corner,
+                 eval(outside_fields[i]).Y_corner, 1, ser)
+        i = i + 1
 
 
 def draw_chessboard():
