@@ -3,8 +3,8 @@ class Field:
     # legal = 0
     Field_len = 47
     offset_X = 5 - ((Field_len - 10)/2)
-    offset_Y = 0
-    # jump_offset = 10
+    offset_Y = 35
+    # jump_offset = 0
     X_dump = 8 * Field_len + offset_X - 15
     Y_dump = 4 * Field_len + offset_Y
 
@@ -20,6 +20,11 @@ class Field:
         self.Y_pos = Y_pos
         # self.X_dump = 8 * self.Field_len + self.offset_X - 15
         # self.Y_dump = 4 * self.Field_len + self.offset_Y
+
+        self.X_outside = X_pos * self.Field_len + self.offset_X if X_pos < 4 else (X_pos + 1) * \
+            self.Field_len + self.offset_X
+        self.Y_outside = Y_pos * self.Field_len + self.offset_Y if Y_pos < 4 else (Y_pos + 1) * \
+            self.Field_len + self.offset_Y
 
 
 all_fields = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8",

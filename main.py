@@ -7,6 +7,7 @@
 # import spidev
 # from math import ceil
 from cmath import sqrt
+from ast import While
 import time
 import serial
 from apa102 import *
@@ -168,6 +169,36 @@ def engine():
         print(board)
 
 
+def draw_chessboard():
+    BUTTON = 17
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(BUTTON, GPIO.IN)
+    ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+    ser.reset_input_buffer()
+    outside_fields = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8",
+                      "b1", "b8",
+                      "c1", "c8",
+                      "d1", "d8",
+                      "e1", "e8",
+                      "f1", "f8",
+                      "g1", "g8",
+                      "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8"]
+
+    # tymczasowe homeowanie
+    time.sleep(3)
+    home(ser)
+    i = 0
+    while True:
+        if GPIO.input(BUTTON) == 0:
+            time.sleep(1)
+            print(outside_fields[i])
+            movement(eval(outside_fields[i]).X_corner,
+                     eval(outside_fields[i]).Y_corner, 1, ser)
+            i = i + 1
+            if i == len(outside_fields):
+                i = 0
+
+
 def main():
     pixels.set_pixel(0, 0, 0, 0, 0)
     pixels.clear_strip()
@@ -175,8 +206,10 @@ def main():
     mode = listen("jednoosobowy", "wieloosobowy")
     if mode == "jednoosobowy":
         engine()
-    else:
+    elif mode == "wieloosobowy":
         human()
+    else:
+        draw_chessboard()
 
 
 if __name__ == '__main__':

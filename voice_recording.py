@@ -23,30 +23,31 @@ def listen_field(field_n):
     pixels.set_pixel_rgb(0, 0x00FF00, 1)
     pixels.set_pixel_rgb(1, 0x000000, 1)
     while(flag == 0):
-        while(GPIO.input(BUTTON) == 1):
-            pass
-        pixels.set_pixel_rgb(field_n-1, 0x0000FF, 1)
-        pixels.show()
-
-        try:
-            with sr.Microphone() as source:
-                print("Podaj {} pole".format(field_n))
-                audio = r.listen(source, 0x0000FF, 3)
-                field = str.lower(r.recognize_google(audio, language="pl"))
-                field = field[0]+field[-1]
-                if field in all_fields:
-                    flag = 1
-                    pixels.set_pixel_rgb(field_n-1, 0x00FF00, 1)
-                    pixels.show()
-                    return field
-                else:
-                    print("nie ma takiego pola:"+field)
-                    pixels.set_pixel_rgb(field_n-1, 0xFF0000, 1)
-                    pixels.show()
-        except:
-            pixels.set_pixel_rgb(field_n-1, 0xFF0000, 1)
+        if GPIO.input(BUTTON) == 0:
+            # while(GPIO.input(BUTTON) == 1):
+            # pass
+            pixels.set_pixel_rgb(field_n-1, 0x0000FF, 1)
             pixels.show()
-            print("error, try again")
+
+            try:
+                with sr.Microphone() as source:
+                    print("Podaj {} pole".format(field_n))
+                    audio = r.listen(source, 0x0000FF, 3)
+                    field = str.lower(r.recognize_google(audio, language="pl"))
+                    field = field[0]+field[-1]
+                    if field in all_fields:
+                        flag = 1
+                        pixels.set_pixel_rgb(field_n-1, 0x00FF00, 1)
+                        pixels.show()
+                        return field
+                    else:
+                        print("nie ma takiego pola:"+field)
+                        pixels.set_pixel_rgb(field_n-1, 0xFF0000, 1)
+                        pixels.show()
+            except:
+                pixels.set_pixel_rgb(field_n-1, 0xFF0000, 1)
+                pixels.show()
+                print("error, try again")
 
 
 def listen(argument1, argument2):
@@ -55,24 +56,25 @@ def listen(argument1, argument2):
     pixels.set_pixel_rgb(1, 0x000000, 1)
     pixels.show()
     while(flag == 0):
-        while(GPIO.input(BUTTON) == 1):
-            pass
-        pixels.set_pixel_rgb(0, 0x0000FF, 1)
-        pixels.show()
-        try:
-            with sr.Microphone() as source:
-                print("wybierz:"+argument1 + "/" + argument2)
-                audio = r.listen(source, 0x0000FF, 3)
-                mode = str.lower(r.recognize_google(audio, language="pl"))
-                if mode in [argument1, argument2]:
-                    flag = 1
-                    print(mode)
-                    pixels.set_pixel_rgb(0, 0x00FF00, 1)
-                    pixels.show()
-                    return mode
-                else:
-                    pixels.set_pixel_rgb(0, 0xFF0000, 1)
-                    pixels.show()
-                    print("Error")
-        except:
-            print("error, try again")
+        if GPIO.input(BUTTON) == 0:
+            # while(GPIO.input(BUTTON) == 1):
+            #     pass
+            pixels.set_pixel_rgb(0, 0x0000FF, 1)
+            pixels.show()
+            try:
+                with sr.Microphone() as source:
+                    print("wybierz:"+argument1 + "/" + argument2)
+                    audio = r.listen(source, 0x0000FF, 3)
+                    mode = str.lower(r.recognize_google(audio, language="pl"))
+                    if mode in [argument1, argument2, 'rysowanie']:
+                        flag = 1
+                        print(mode)
+                        pixels.set_pixel_rgb(0, 0x00FF00, 1)
+                        pixels.show()
+                        return mode
+                    else:
+                        pixels.set_pixel_rgb(0, 0xFF0000, 1)
+                        pixels.show()
+                        print("Error")
+            except:
+                print("error, try again")
