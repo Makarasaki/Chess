@@ -11,10 +11,11 @@ class Field:
     def __init__(self, X_pos, Y_pos, state):
         self.X_center = X_pos * self.Field_len + self.Field_len/2 + self.offset_X
         self.Y_center = Y_pos * self.Field_len + self.Field_len/2 + self.offset_Y
-        self.X_corner = X_pos * self.Field_len + self.offset_X if X_pos > 4 else (X_pos + 1) * \
-            self.Field_len + self.offset_X
-        self.Y_corner = Y_pos * self.Field_len + self.offset_Y if Y_pos > 4 else (Y_pos + 1) * \
-            self.Field_len + self.offset_Y
+        # self.X_corner = X_pos * self.Field_len + self.offset_X if X_pos > 4 else (X_pos + 1) * \
+        #     self.Field_len + self.offset_X
+        self.X_corner = self.X_center + self.Field_len/2
+        self.Y_corner = Y_pos * self.Field_len + self.offset_Y if Y_pos > 3 else (Y_pos + 1) * \
+            self.Field_len + self.offset_Y  # było > 4 (tak jakby co xD)
         self.state = state
         self.X_pos = X_pos
         self.Y_pos = Y_pos
@@ -25,6 +26,11 @@ class Field:
             self.Field_len + self.offset_X
         self.Y_outside = Y_pos * self.Field_len + self.offset_Y if Y_pos < 4 else (Y_pos + 1) * \
             self.Field_len + self.offset_Y
+        # FOR HORSES
+        self.X_corner_R = self.X_corner
+        self.X_corner_L = self.X_center - self.Field_len/2
+        self.Y_corner_U = self.Y_center + self.Field_len/2
+        self.Y_corner_D = self.Y_center - self.Field_len/2
 
 
 all_fields = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8",
