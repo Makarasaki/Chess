@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # from _typeshed import Self
 # import sys
 # import pyaudio
@@ -17,6 +19,8 @@ from voice_recording import *
 import chess
 import chess.engine
 import math
+import asyncio
+from datetime import datetime
 
 
 def human():
@@ -182,15 +186,11 @@ def game_test():
     ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
     ser.reset_input_buffer()
     moves_times = {}
-    duda_nakamura_moves = ["g1f3", "g8f6", "d2d4", "e7e6", "c2c4", "d7d5", "b1c3",
-                           "f8b4", "c1d2", "e8g8", "e2e3", "b7b6", "a2a3", "b4e7",
-                           "c3d5", "e6d5", "a1c1", "c8a6", "d1a4", "c7c5", "d4c5",
-                           "b6c5", "d2c3", "f6e4", "c3e5", "a6c4", "f1c4", "d5c4",
-                           "a4c4", "e4f6", "e1g1", "b8d7", "e5c3", "d7b6", "c4e2",
-                           "d8d5", "f1d1", "d5e6", "c3a5", "f8d8", "f3d2", "d8d7",
-                           "d2f3", "a8d8", "d1d7", "d8d7", "h2h3", "h7h6", "e2b5",
-                           "d7d5", "b5a6", "e6d7", "a6e2", "f6e4", "f3e1", "d7a4",
-                           "a5b6", "a7b6", "c1c4", "a4d1", "koniec"]
+    moves_times_time = {}
+    duda_nakamura_moves = ["g1f3", "g8f6", "d2d4", "e7e6", "c2c4", "d7d5", "b1c3", "f8b4", "c1d2", "e8g8", "e2e3", "b7b6", "a2a3", "b4e7", "c3d5", "e6d5", "a1c1", "c8a6", "d1a4", "c7c5", "d4c5", "b6c5", "d2c3", "f6e4", "c3e5", "a6c4", "f1c4", "d5c4", "a4c4",
+                           "e4f6", "e1g1", "b8d7", "e5c3", "d7b6", "c4e2", "d8d5", "f1d1", "d5e6", "c3a5", "f8d8", "f3d2", "d8d7", "d2f3", "a8d8", "d1d7", "d8d7", "h2h3", "h7h6", "e2b5", "d7d5", "b5a6", "e6d7", "a6e2", "f6e4", "f3e1", "d7a4", "a5b6", "a7b6", "c1c4", "a4d1", "koniec"]
+    # duda_nakamura_moves = ["b1c3", "f8b4", "c1d2", "e8g8", "koniec"]
+    print(len(duda_nakamura_moves))
     # b6c5 fail (przesuniete w gore)
     i = 0
     print(moves_times)
@@ -202,14 +202,24 @@ def game_test():
             0] + str(duda_nakamura_moves[i])[1]
         field_2dn = str(duda_nakamura_moves[i])[
             2] + str(duda_nakamura_moves[i])[3]
-        print(f"pole 1: {field_1dn}")
-        print(f"pole 2: {field_2dn}")
         print(f"ruch: {duda_nakamura_moves[i]}")
-        tic = time.perf_counter()
+        tic = time.process_time()
+        # tic = time.time()
+        print(f"tic: {tic}")
+        now = datetime.now().time()
+        # now = time.monotonic()
+        print(f"now: {now}")
         move_exe(duda_nakamura_moves[i], field_1dn, field_2dn, ser)
-        tac = time.perf_counter()
-        moves_times[duda_nakamura_moves[i]] = format(tac-tic, '.2f')
+        now2 = datetime.now().time()
+        # now2 = time.monotonic()
+        print(f"now2: {now}")
+        tac = time.process_time()
+        # tac = time.time()
+        print(f"tac: {tac}")
+        # moves_times_time[duda_nakamura_moves[i]] = format(now2 - now, '.2f')
+        moves_times[duda_nakamura_moves[i]] = format(tac - tic, '.2f')
         print(moves_times)
+        print(f"datetime: {moves_times_time}")
         i = i + 1
     print(moves_times)
 
@@ -227,7 +237,7 @@ def motor_reliability_test():
     home(ser)
     i = 0
     movement(eval('a1').X_center,
-             eval('a1').Y_center, 1, ser)
+             eval('a1').Y_center, 0, ser)
     # while outside_fields[i] != "koniec":
     #     time.sleep(1)
     #     print(outside_fields[i])
@@ -270,9 +280,9 @@ def main():
     pixels.set_pixel(0, 0, 0, 0, 0)
     pixels.clear_strip()
     print("kliknij, żeby rozpocząć")
-    motor_reliability_test()
+    # motor_reliability_test()
     # human()
-    # game_test()
+    game_test()
     # mode = listen("jednoosobowy", "wieloosobowy")
     # if mode == "jednoosobowy":
     #     engine()
@@ -290,25 +300,25 @@ if __name__ == '__main__':
 
 def move_exe(move, field_11, field_22, ser):
     if move == "e1g1":
-        castling_white_short(ser)
+        lol = castling_white_short(ser)
         eval("e1").state = '0'
         eval('h1').state = '0'
         eval('f1').state = 'K'
         eval('g1').state = 'R'
     elif move == "e1c1":
-        castling_white_long(ser)
+        lol = castling_white_long(ser)
         eval("e1").state = '0'
         eval('a1').state = '0'
         eval('c1').state = 'K'
         eval('d1').state = 'R'
     elif move == "e8g8":
-        castling_black_short(ser)
+        lol = castling_black_short(ser)
         eval("e8").state = '0'
         eval('h8').state = '0'
         eval('f8').state = 'k'
         eval('g8').state = 'r'
     elif move == "e8c8":
-        castling_black_long(ser)
+        lol = castling_black_long(ser)
         eval("e8").state = '0'
         eval('a8').state = '0'
         eval('c8').state = 'k'
@@ -317,42 +327,42 @@ def move_exe(move, field_11, field_22, ser):
         capture(field_22, ser)
         # Ruch z pola 1 na pole 2
         if eval(field_11).state in ('N', 'n'):
-            knight_move(field_11, field_22, ser)
+            lol = knight_move(field_11, field_22, ser)
         else:
-            regular_move(field_11, field_22, ser)
+            lol = regular_move(field_11, field_22, ser)
         eval(field_22).state = eval(field_11).state
         eval(field_11).state = '0'
     else:
         if eval(field_11).state in ('N', 'n'):
-            print('wpadlo 1')
-            knight_move(field_11, field_22, ser)
+            lol = knight_move(field_11, field_22, ser)
         else:
-            regular_move(field_11, field_22, ser)
+            lol = regular_move(field_11, field_22, ser)
         eval(field_22).state = eval(field_11).state
         eval(field_11).state = '0'
+    print(f"lol: {lol}")
 
 
-def magnet_correction(field_1, field_2, position):
-    diagonal_correction_mm = 2.0
-    correction_mm = 4.0
-    return 0
-    # if eval(field_1).X_center != eval(field_2).X_center:
-    #     if position == 1:
-    #         if eval(field_2).X_pos > 4:
-    #             return diagonal_correction_mm
-    #         else:
-    #             return -diagonal_correction_mm
-    #     if position == 2:
-    #         if eval(field_2).Y_pos > 4:
-    #             return diagonal_correction_mm
-    #         else:
-    #             return -diagonal_correction_mm
-    # elif position == 2 and eval(field_1).X_center == eval(field_2).X_center:
-    #     return correction_mm if eval(field_1).Y_pos < eval(field_2).Y_pos else -correction_mm
-    # elif position == 1 and eval(field_1).Y_center == eval(field_2).Y_center:
-    #     return correction_mm if eval(field_1).X_pos < eval(field_2).X_pos else -correction_mm
-    # else:
-    #     return 0
+# def magnet_correction(field_1, field_2, position):
+#     diagonal_correction_mm = 2.0
+#     correction_mm = 4.0
+#     return 0
+#     if eval(field_1).X_center != eval(field_2).X_center:
+#         if position == 1:
+#             if eval(field_2).X_pos > 4:
+#                 return diagonal_correction_mm
+#             else:
+#                 return -diagonal_correction_mm
+#         if position == 2:
+#             if eval(field_2).Y_pos > 4:
+#                 return diagonal_correction_mm
+#             else:
+#                 return -diagonal_correction_mm
+#     elif position == 2 and eval(field_1).X_center == eval(field_2).X_center:
+#         return correction_mm if eval(field_1).Y_pos < eval(field_2).Y_pos else -correction_mm
+#     elif position == 1 and eval(field_1).Y_center == eval(field_2).Y_center:
+#         return correction_mm if eval(field_1).X_pos < eval(field_2).X_pos else -correction_mm
+#     else:
+#         return 0
 
 
 def capture(field_2, ser):
@@ -378,64 +388,77 @@ def knight_move(field_1, field_2, ser):
         Y_corner_2 = eval(field_2).Y_corner_U
 
     movement(eval(field_1).X_center, eval(field_1).Y_center, 0, ser)
-    print('srodek')
     movement(X_corner_1, Y_corner_1, 1, ser)
-    print('corner')
     movement(X_corner_2, Y_corner_1, 1, ser)
-    print('X corner')
     movement(X_corner_2, Y_corner_2, 1, ser)
-    print('Y corner')
-    movement(eval(field_2).X_center, eval(field_2).Y_center, 1, ser)
-    print('srodek2')
+    haha = movement(eval(field_2).X_center, eval(field_2).Y_center, 1, ser)
+    print(f"haha{haha}")
+    return 0
 
 
 def regular_move(field_1, field_2, ser):
     movement(eval(field_1).X_center, eval(field_1).Y_center, 0, ser)
-    print(magnet_correction(field_1, field_2, 1))
-    print(magnet_correction(field_1, field_2, 2))
     # print(type(magnet_correction(field_1, field_2, 1)))
     # print(type(eval(field_1).X_center))
-    movement(eval(field_2).X_center, eval(field_2).Y_center, 1, ser)
+    haha = movement(eval(field_2).X_center, eval(field_2).Y_center, 1, ser)
+    print(f"haha{haha}")
+    return 0
 
 
 def castling_white_short(ser):
-    movement(eval("e1").X_center, eval("e1").Y_center, 0, ser)
-    movement(eval("e1").X_corner, eval("e1").Y_corner, 1, ser)
+    # movement(eval("e1").X_center, eval("e1").Y_center, 0, ser)
+    # movement(eval("e1").X_corner, eval("e1").Y_corner, 1, ser)
     movement(eval("h1").X_center, eval("h1").Y_center, 0, ser)
     movement(eval("f1").X_center, eval("f1").Y_center, 1, ser)
-    movement(eval("e1").X_corner, eval("e1").Y_corner, 0, ser)
+    movement(eval("e1").X_center, eval("e1").Y_center, 0, ser)
+    movement(eval("e1").X_corner, eval("e1").Y_corner, 1, ser)
+    # movement(eval("e1").X_corner, eval("e1").Y_corner, 0, ser)
     movement(eval("g1").X_corner, eval("g1").Y_corner, 1, ser)
-    movement(eval("g1").X_center, eval("g1").Y_center, 1, ser)
+    haha = movement(eval("g1").X_center, eval("g1").Y_center, 1, ser)
+    print(f"haha{haha}")
+    return 0
 
 
 def castling_white_long(ser):
-    movement(eval("e1").X_center, eval("e1").Y_center, 0, ser)
-    movement(eval("e1").X_corner, eval("e1").Y_corner, 1, ser)
+    # movement(eval("e1").X_center, eval("e1").Y_center, 0, ser)
+    # movement(eval("e1").X_corner, eval("e1").Y_corner, 1, ser)
     movement(eval("a1").X_center, eval("a1").Y_center, 0, ser)
     movement(eval("d1").X_center, eval("d1").Y_center, 1, ser)
-    movement(eval("e1").X_corner, eval("e1").Y_corner, 0, ser)
+    movement(eval("e1").X_center, eval("e1").Y_center, 0, ser)
+    movement(eval("e1").X_corner, eval("e1").Y_corner, 1, ser)
+    # movement(eval("e1").X_corner, eval("e1").Y_corner, 0, ser)
     movement(eval("c1").X_corner, eval("c1").Y_corner, 1, ser)
-    movement(eval("c1").X_center, eval("c1").Y_center, 1, ser)
+    haha = movement(eval("c1").X_center, eval("c1").Y_center, 1, ser)
+    print(f"haha{haha}")
+    return 0
 
 
 def castling_black_short(ser):
-    movement(eval("e8").X_center, eval("e8").Y_center, 0, ser)
-    movement(eval("e8").X_corner, eval("e8").Y_corner, 1, ser)
+    # movement(eval("e8").X_center, eval("e8").Y_center, 0, ser)
+    # movement(eval("e8").X_corner, eval("e8").Y_corner, 1, ser)
     movement(eval("h8").X_center, eval("h8").Y_center, 0, ser)
     movement(eval("f8").X_center, eval("f8").Y_center, 1, ser)
-    movement(eval("e8").X_corner, eval("e8").Y_corner, 0, ser)
+    movement(eval("e8").X_center, eval("e8").Y_center, 0, ser)
+    movement(eval("e8").X_corner, eval("e8").Y_corner, 1, ser)
+    # movement(eval("e8").X_corner, eval("e8").Y_corner, 0, ser)
     movement(eval("g8").X_corner, eval("g8").Y_corner, 1, ser)
-    movement(eval("g8").X_center, eval("g8").Y_center, 1, ser)
+    haha = movement(eval("g8").X_center, eval("g8").Y_center, 1, ser)
+    print(f"haha{haha}")
+    return 0
 
 
 def castling_black_long(ser):
-    movement(eval("e8").X_center, eval("e8").Y_center, 0, ser)
-    movement(eval("e8").X_corner, eval("e8").Y_corner, 1, ser)
+    # movement(eval("e8").X_center, eval("e8").Y_center, 0, ser)
+    # movement(eval("e8").X_corner, eval("e8").Y_corner, 1, ser)
     movement(eval("a8").X_center, eval("a8").Y_center, 0, ser)
     movement(eval("d8").X_center, eval("d8").Y_center, 1, ser)
-    movement(eval("e8").X_corner, eval("e8").Y_corner, 0, ser)
+    movement(eval("e8").X_center, eval("e8").Y_center, 0, ser)
+    movement(eval("e8").X_corner, eval("e8").Y_corner, 1, ser)
+    # movement(eval("e8").X_corner, eval("e8").Y_corner, 0, ser)
     movement(eval("c8").X_corner, eval("c8").Y_corner, 1, ser)
-    movement(eval("c8").X_center, eval("c8").Y_center, 1, ser)
+    haha = movement(eval("c8").X_center, eval("c8").Y_center, 1, ser)
+    print(f"haha{haha}")
+    return 0
 
 
 def movement(X, Y, M, ser):
@@ -443,8 +466,9 @@ def movement(X, Y, M, ser):
     while True:
         ser.write(msg_gen(X, Y, M).encode('ascii'))
         if ser.readline().decode('ascii').rstrip() == "1":
-            print("git")
+            # print("git")
             break
+    return 1
 
 
 def home(ser):
