@@ -19,13 +19,13 @@ r = sr.Recognizer()
 
 
 def listen_field(field_n):
+    string_to_number_pl = {'jeden': '1', 'dwa': '2', 'trzy': '3',
+                           'cztery': '4', 'pięć': '5', 'sześć': '6', 'siedem': '7', 'osiem': '8'}
     flag = 0
     pixels.set_pixel_rgb(0, 0x00FF00, 1)
     pixels.set_pixel_rgb(1, 0x000000, 1)
     while(flag == 0):
         if GPIO.input(BUTTON) == 0:
-            # while(GPIO.input(BUTTON) == 1):
-            # pass
             pixels.set_pixel_rgb(field_n-1, 0x0000FF, 1)
             pixels.show()
 
@@ -33,8 +33,13 @@ def listen_field(field_n):
                 with sr.Microphone() as source:
                     print("Podaj {} pole".format(field_n))
                     audio = r.listen(source, 0x0000FF, 3)
-                    field = str.lower(r.recognize_google(audio, language="pl"))
-                    field = field[0]+field[-1]
+                    text = str.lower(r.recognize_google(audio, language="pl"))
+                    text_split = text.split()
+
+                    if not text_split[1].isnumeric():
+                        text_split[1] = string_to_number_pl[text_split[1]]
+
+                    field = text_split[0][0] + text_split[1][0]
                     if field in all_fields:
                         flag = 1
                         pixels.set_pixel_rgb(field_n-1, 0x00FF00, 1)
