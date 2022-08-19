@@ -220,7 +220,7 @@ def game_test():
         moves_times[duda_nakamura_moves[i]] = format(tac - tic, '.2f')
         # only_times[i] = format(tac - tic, '.2f')
         # print(moves_times)
-        i = i + 1
+        i += 1
     print(moves_times)
     print(only_times)
     file = open("log.txt", "w")
@@ -235,19 +235,19 @@ def motor_reliability_test():
     ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
     ser.reset_input_buffer()
     outside_fields = ["a1", "d4", "a7", "g8", "f3", "a5", "c8", "b7", "h2", "e3", "c1",
-                      "a3", "g7", "g1", "d1", "f3", "h6", "b1", "a2", "e7", "a8", "h7", "a1", "koniec"]
+                      "a3", "g7", "g1", "d1", "f3", "h6", "b1", "a2", "e7", "a8", "h7", "a1"]
     # tymczasowe homeowanie
     time.sleep(3)
     home(ser)
     i = 0
     movement(eval('a1').X_center,
              eval('a1').Y_center, 0, ser)
-    while outside_fields[i] != "koniec":
+    while i < len(outside_fields):
         time.sleep(1)
         print(outside_fields[i])
         movement(eval(outside_fields[i]).X_corner,
                  eval(outside_fields[i]).Y_corner, 1, ser)
-        i = i + 1
+        i += 1
 
 
 def draw_chessboard():
@@ -275,7 +275,7 @@ def draw_chessboard():
             print(outside_fields[i])
             movement(eval(outside_fields[i]).X_corner,
                      eval(outside_fields[i]).Y_corner, 1, ser)
-            i = i + 1
+            i += 1
             if i == len(outside_fields):
                 i = 0
 
