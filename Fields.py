@@ -1,10 +1,8 @@
 class Field:
 
-    # legal = 0
     Field_len = 47
     offset_X = 5 - ((Field_len - 10)/2)
     offset_Y = 35
-    # jump_offset = 0
     X_dump = 8 * Field_len + offset_X - 15
     Y_dump = 4 * Field_len + offset_Y
 
@@ -13,14 +11,11 @@ class Field:
         self.Y_center = Y_pos * self.Field_len + self.Field_len/2 + self.offset_Y
         self.X_corner = X_pos * self.Field_len + self.offset_X if X_pos > 6 else (X_pos + 1) * \
             self.Field_len + self.offset_X
-        # self.X_corner = self.X_center + self.Field_len/2
         self.Y_corner = Y_pos * self.Field_len + self.offset_Y if Y_pos > 3 else (Y_pos + 1) * \
-            self.Field_len + self.offset_Y  # było > 4 (tak jakby co xD)
+            self.Field_len + self.offset_Y
         self.state = state
         self.X_pos = X_pos
         self.Y_pos = Y_pos
-        # self.X_dump = 8 * self.Field_len + self.offset_X - 15
-        # self.Y_dump = 4 * self.Field_len + self.offset_Y
 
         self.X_outside = X_pos * self.Field_len + self.offset_X if X_pos < 4 else (X_pos + 1) * \
             self.Field_len + self.offset_X

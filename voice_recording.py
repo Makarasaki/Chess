@@ -62,8 +62,6 @@ def listen(argument1, argument2):
     pixels.show()
     while(flag == 0):
         if GPIO.input(BUTTON) == 0:
-            # while(GPIO.input(BUTTON) == 1):
-            #     pass
             pixels.set_pixel_rgb(0, 0x0000FF, 1)
             pixels.show()
             try:
