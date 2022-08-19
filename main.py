@@ -8,25 +8,25 @@
 # import RPi.GPIO as GPIO
 # import spidev
 # from math import ceil
-from cgitb import text
-from cmath import sqrt
-from ast import While
-from ctypes.wintypes import tagRECT
-from multiprocessing.connection import wait
-import re
+# from cgitb import text
+# from cmath import sqrt
+# from ast import While
+# from ctypes.wintypes import tagRECT
+# from multiprocessing.connection import wait
+# import re
 import time
-from tracemalloc import start
+# from tracemalloc import start
 import serial
 from apa102 import *
 from Fields import *
 from voice_recording import *
 import chess
 import chess.engine
-import math
-from datetime import datetime
-import pdb
-import asyncio
-import os
+# import math
+# from datetime import datetime
+# import pdb
+# import asyncio
+# import os
 
 
 def human():
@@ -45,7 +45,7 @@ def human():
     board = chess.Board()
     print(board)
 
-    while True:
+    while True:  # While not board.is_game_over():
 
         pixels.set_pixel(0, 0, 0, 0, 0)
         pixels.clear_strip()
@@ -124,7 +124,7 @@ def engine():
         print(engine_move.move)
         print(board)
 
-    while True:
+    while True:  # While not board.is_game_over():
 
         pixels.set_pixel(0, 0, 0, 0, 0)
         pixels.clear_strip()
@@ -155,7 +155,7 @@ def engine():
                 legal = 0
 
         legal = 0
-        print("ostateczny ruch:"+move)
+        print("ostateczny ruch:" + move)
         board.push(move_ch)
         print(board)
 
@@ -181,14 +181,14 @@ def engine():
 
 
 def game_test():
-    print(f"A: 1:X:{eval('a1').X_center} Y:{eval('a1').Y_center}, 2:X:{eval('a2').X_center} Y:{eval('a2').Y_center}, 3:X:{eval('a3').X_center} Y:{eval('a3').Y_center}, 4:X:{eval('a4').X_center} Y:{eval('a4').Y_center}, 5:X:{eval('a5').X_center} Y:{eval('a5').Y_center}, 6:X:{eval('a6').X_center} Y:{eval('a6').Y_center}, 7:X:{eval('a7').X_center} Y:{eval('a7').Y_center}, 8:X:{eval('a8').X_center} Y:{eval('a8').Y_center}")
-    print(f"B: 1:X:{eval('b1').X_center} Y:{eval('b1').Y_center}, 2:X:{eval('b2').X_center} Y:{eval('b2').Y_center}, 3:X:{eval('b3').X_center} Y:{eval('b3').Y_center}, 4:X:{eval('b4').X_center} Y:{eval('b4').Y_center}, 5:X:{eval('b5').X_center} Y:{eval('b5').Y_center}, 6:X:{eval('b6').X_center} Y:{eval('b6').Y_center}, 7:X:{eval('b7').X_center} Y:{eval('b7').Y_center}, 8:X:{eval('b8').X_center} Y:{eval('b8').Y_center}")
-    print(f"C: 1:X:{eval('c1').X_center} Y:{eval('c1').Y_center}, 2:X:{eval('c2').X_center} Y:{eval('c2').Y_center}, 3:X:{eval('c3').X_center} Y:{eval('c3').Y_center}, 4:X:{eval('c4').X_center} Y:{eval('c4').Y_center}, 5:X:{eval('c5').X_center} Y:{eval('c5').Y_center}, 6:X:{eval('c6').X_center} Y:{eval('c6').Y_center}, 7:X:{eval('c7').X_center} Y:{eval('c7').Y_center}, 8:X:{eval('c8').X_center} Y:{eval('c8').Y_center}")
-    print(f"D: 1:X:{eval('d1').X_center} Y:{eval('d1').Y_center}, 2:X:{eval('d2').X_center} Y:{eval('d2').Y_center}, 3:X:{eval('d3').X_center} Y:{eval('d3').Y_center}, 4:X:{eval('d4').X_center} Y:{eval('d4').Y_center}, 5:X:{eval('d5').X_center} Y:{eval('d5').Y_center}, 6:X:{eval('d6').X_center} Y:{eval('d6').Y_center}, 7:X:{eval('d7').X_center} Y:{eval('d7').Y_center}, 8:X:{eval('d8').X_center} Y:{eval('d8').Y_center}")
-    print(f"E: 1:X:{eval('e1').X_center} Y:{eval('e1').Y_center}, 2:X:{eval('e2').X_center} Y:{eval('e2').Y_center}, 3:X:{eval('e3').X_center} Y:{eval('e3').Y_center}, 4:X:{eval('e4').X_center} Y:{eval('e4').Y_center}, 5:X:{eval('e5').X_center} Y:{eval('e5').Y_center}, 6:X:{eval('e6').X_center} Y:{eval('e6').Y_center}, 7:X:{eval('e7').X_center} Y:{eval('e7').Y_center}, 8:X:{eval('e8').X_center} Y:{eval('e8').Y_center}")
-    print(f"F: 1:X:{eval('f1').X_center} Y:{eval('f1').Y_center}, 2:X:{eval('f2').X_center} Y:{eval('f2').Y_center}, 3:X:{eval('f3').X_center} Y:{eval('f3').Y_center}, 4:X:{eval('f4').X_center} Y:{eval('f4').Y_center}, 5:X:{eval('f5').X_center} Y:{eval('f5').Y_center}, 6:X:{eval('f6').X_center} Y:{eval('f6').Y_center}, 7:X:{eval('f7').X_center} Y:{eval('f7').Y_center}, 8:X:{eval('f8').X_center} Y:{eval('f8').Y_center}")
-    print(f"G: 1:X:{eval('g1').X_center} Y:{eval('g1').Y_center}, 2:X:{eval('g2').X_center} Y:{eval('g2').Y_center}, 3:X:{eval('g3').X_center} Y:{eval('g3').Y_center}, 4:X:{eval('g4').X_center} Y:{eval('g4').Y_center}, 5:X:{eval('g5').X_center} Y:{eval('g5').Y_center}, 6:X:{eval('g6').X_center} Y:{eval('g6').Y_center}, 7:X:{eval('g7').X_center} Y:{eval('g7').Y_center}, 8:X:{eval('g8').X_center} Y:{eval('g8').Y_center}")
-    print(f"H: 1:X:{eval('h1').X_center} Y:{eval('h1').Y_center}, 2:X:{eval('h2').X_center} Y:{eval('h2').Y_center}, 3:X:{eval('h3').X_center} Y:{eval('h3').Y_center}, 4:X:{eval('h4').X_center} Y:{eval('h4').Y_center}, 5:X:{eval('h5').X_center} Y:{eval('h5').Y_center}, 6:X:{eval('h6').X_center} Y:{eval('h6').Y_center}, 7:X:{eval('h7').X_center} Y:{eval('h7').Y_center}, 8:X:{eval('h8').X_center} Y:{eval('h8').Y_center}")
+    # print(f"A: 1:X:{eval('a1').X_center} Y:{eval('a1').Y_center}, 2:X:{eval('a2').X_center} Y:{eval('a2').Y_center}, 3:X:{eval('a3').X_center} Y:{eval('a3').Y_center}, 4:X:{eval('a4').X_center} Y:{eval('a4').Y_center}, 5:X:{eval('a5').X_center} Y:{eval('a5').Y_center}, 6:X:{eval('a6').X_center} Y:{eval('a6').Y_center}, 7:X:{eval('a7').X_center} Y:{eval('a7').Y_center}, 8:X:{eval('a8').X_center} Y:{eval('a8').Y_center}")
+    # print(f"B: 1:X:{eval('b1').X_center} Y:{eval('b1').Y_center}, 2:X:{eval('b2').X_center} Y:{eval('b2').Y_center}, 3:X:{eval('b3').X_center} Y:{eval('b3').Y_center}, 4:X:{eval('b4').X_center} Y:{eval('b4').Y_center}, 5:X:{eval('b5').X_center} Y:{eval('b5').Y_center}, 6:X:{eval('b6').X_center} Y:{eval('b6').Y_center}, 7:X:{eval('b7').X_center} Y:{eval('b7').Y_center}, 8:X:{eval('b8').X_center} Y:{eval('b8').Y_center}")
+    # print(f"C: 1:X:{eval('c1').X_center} Y:{eval('c1').Y_center}, 2:X:{eval('c2').X_center} Y:{eval('c2').Y_center}, 3:X:{eval('c3').X_center} Y:{eval('c3').Y_center}, 4:X:{eval('c4').X_center} Y:{eval('c4').Y_center}, 5:X:{eval('c5').X_center} Y:{eval('c5').Y_center}, 6:X:{eval('c6').X_center} Y:{eval('c6').Y_center}, 7:X:{eval('c7').X_center} Y:{eval('c7').Y_center}, 8:X:{eval('c8').X_center} Y:{eval('c8').Y_center}")
+    # print(f"D: 1:X:{eval('d1').X_center} Y:{eval('d1').Y_center}, 2:X:{eval('d2').X_center} Y:{eval('d2').Y_center}, 3:X:{eval('d3').X_center} Y:{eval('d3').Y_center}, 4:X:{eval('d4').X_center} Y:{eval('d4').Y_center}, 5:X:{eval('d5').X_center} Y:{eval('d5').Y_center}, 6:X:{eval('d6').X_center} Y:{eval('d6').Y_center}, 7:X:{eval('d7').X_center} Y:{eval('d7').Y_center}, 8:X:{eval('d8').X_center} Y:{eval('d8').Y_center}")
+    # print(f"E: 1:X:{eval('e1').X_center} Y:{eval('e1').Y_center}, 2:X:{eval('e2').X_center} Y:{eval('e2').Y_center}, 3:X:{eval('e3').X_center} Y:{eval('e3').Y_center}, 4:X:{eval('e4').X_center} Y:{eval('e4').Y_center}, 5:X:{eval('e5').X_center} Y:{eval('e5').Y_center}, 6:X:{eval('e6').X_center} Y:{eval('e6').Y_center}, 7:X:{eval('e7').X_center} Y:{eval('e7').Y_center}, 8:X:{eval('e8').X_center} Y:{eval('e8').Y_center}")
+    # print(f"F: 1:X:{eval('f1').X_center} Y:{eval('f1').Y_center}, 2:X:{eval('f2').X_center} Y:{eval('f2').Y_center}, 3:X:{eval('f3').X_center} Y:{eval('f3').Y_center}, 4:X:{eval('f4').X_center} Y:{eval('f4').Y_center}, 5:X:{eval('f5').X_center} Y:{eval('f5').Y_center}, 6:X:{eval('f6').X_center} Y:{eval('f6').Y_center}, 7:X:{eval('f7').X_center} Y:{eval('f7').Y_center}, 8:X:{eval('f8').X_center} Y:{eval('f8').Y_center}")
+    # print(f"G: 1:X:{eval('g1').X_center} Y:{eval('g1').Y_center}, 2:X:{eval('g2').X_center} Y:{eval('g2').Y_center}, 3:X:{eval('g3').X_center} Y:{eval('g3').Y_center}, 4:X:{eval('g4').X_center} Y:{eval('g4').Y_center}, 5:X:{eval('g5').X_center} Y:{eval('g5').Y_center}, 6:X:{eval('g6').X_center} Y:{eval('g6').Y_center}, 7:X:{eval('g7').X_center} Y:{eval('g7').Y_center}, 8:X:{eval('g8').X_center} Y:{eval('g8').Y_center}")
+    # print(f"H: 1:X:{eval('h1').X_center} Y:{eval('h1').Y_center}, 2:X:{eval('h2').X_center} Y:{eval('h2').Y_center}, 3:X:{eval('h3').X_center} Y:{eval('h3').Y_center}, 4:X:{eval('h4').X_center} Y:{eval('h4').Y_center}, 5:X:{eval('h5').X_center} Y:{eval('h5').Y_center}, 6:X:{eval('h6').X_center} Y:{eval('h6').Y_center}, 7:X:{eval('h7').X_center} Y:{eval('h7').Y_center}, 8:X:{eval('h8').X_center} Y:{eval('h8').Y_center}")
     ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
     ser.reset_input_buffer()
     moves_times = {}
@@ -242,12 +242,12 @@ def motor_reliability_test():
     i = 0
     movement(eval('a1').X_center,
              eval('a1').Y_center, 0, ser)
-    # while outside_fields[i] != "koniec":
-    #     time.sleep(1)
-    #     print(outside_fields[i])
-    #     movement(eval(outside_fields[i]).X_corner,
-    #              eval(outside_fields[i]).Y_corner, 1, ser)
-    #     i = i + 1
+    while outside_fields[i] != "koniec":
+        time.sleep(1)
+        print(outside_fields[i])
+        movement(eval(outside_fields[i]).X_corner,
+                 eval(outside_fields[i]).Y_corner, 1, ser)
+        i = i + 1
 
 
 def draw_chessboard():
@@ -407,16 +407,12 @@ def knight_move(field_1, field_2, ser):
     movement(X_corner_1, Y_corner_1, 1, ser)
     movement(X_corner_2, Y_corner_1, 1, ser)
     movement(X_corner_2, Y_corner_2, 1, ser)
-    print("przed koniec kon")
     movement(eval(field_2).X_center, eval(field_2).Y_center, 1, ser)
-    # movement(eval(field_2).X_center, eval(field_2).Y_center, 1, ser)
-    print("koniec kon")
 
 
 def regular_move(field_1, field_2, ser):
     movement(eval(field_1).X_center, eval(field_1).Y_center, 0, ser)
     movement(eval(field_2).X_center, eval(field_2).Y_center, 1, ser)
-    # movement(eval(field_2).X_center, eval(field_2).Y_center, 1, ser)
 
 
 def castling_white_short(ser):
@@ -426,7 +422,6 @@ def castling_white_short(ser):
     movement(eval("e1").X_corner, eval("e1").Y_corner, 1, ser)
     movement(eval("g1").X_corner_L, eval("g1").Y_corner_U, 1, ser)
     movement(eval("g1").X_center, eval("g1").Y_center, 1, ser)
-    # movement(eval("g1").X_center, eval("g1").Y_center, 1, ser)
 
 
 def castling_white_long(ser):
@@ -445,7 +440,6 @@ def castling_black_short(ser):
     movement(eval("e8").X_corner, eval("e8").Y_corner, 1, ser)
     movement(eval("g8").X_corner_L, eval("g8").Y_corner_D, 1, ser)
     movement(eval("g8").X_center, eval("g8").Y_center, 1, ser)
-    # movement(eval("g8").X_center, eval("g8").Y_center, 1, ser)
 
 
 def castling_black_long(ser):
@@ -454,7 +448,6 @@ def castling_black_long(ser):
     movement(eval("e8").X_center, eval("e8").Y_center, 0, ser)
     movement(eval("e8").X_corner_L, eval("e8").Y_corner, 1, ser)
     movement(eval("c8").X_corner, eval("c8").Y_corner, 1, ser)
-    # movement(eval("c8").X_center, eval("c8").Y_center, 1, ser)
 
 
 def movement(X, Y, M, ser):
@@ -464,13 +457,14 @@ def movement(X, Y, M, ser):
     time.sleep(1)
     while ser.read().decode('ascii').rstrip() != "1":
         pass
-        # ser.write(msg_gen(X, Y, M).encode('ascii'))
-    print("prawdziwy koniec")
 
 
 def home(ser):
     ser.write("H1 ".encode('ascii'))
-    while True:
-        if ser.readline().decode('ascii').rstrip() == "1":
-            print("git")
-            break
+    ser.reset_input_buffer()
+    time.sleep(1)
+    while ser.read().decode('ascii').rstrip() != "1":
+        pass
+    # while True:
+    #     if ser.readline().decode('ascii').rstrip() == "1":
+    #         break
