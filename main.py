@@ -299,16 +299,16 @@ def main():
     pixels.clear_strip()
     print("kliknij, żeby rozpocząć")
     # voice_recognition_test()
-    game_test()
-    # mode = listen("jednoosobowy", "wieloosobowy")
-    # if mode == "jednoosobowy":
-    #     engine()
-    # elif mode == "wieloosobowy":
-    #     human()
-    # else:
-    #     # draw_chessboard()
-    #     # motor_reliability_test()
-    #     # game_test()
+    # game_test()
+    mode = listen("jednoosobowy", "wieloosobowy")
+    if mode == "jednoosobowy":
+        engine()
+    elif mode == "wieloosobowy":
+        human()
+    else:
+        draw_chessboard()
+        motor_reliability_test()
+        game_test()
 
 
 if __name__ == '__main__':

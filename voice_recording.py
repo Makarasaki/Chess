@@ -36,10 +36,11 @@ def listen_field(field_n):
                     text = str.lower(r.recognize_google(audio, language="pl"))
                     text_split = text.split()
 
-                    if not text_split[1].isnumeric():
+                    if len(text_split) > 1 and not text_split[1].isnumeric():
                         text_split[1] = string_to_number_pl[text_split[1]]
-
-                    field = text_split[0][0] + text_split[1][0]
+                        field = text_split[0][0] + text_split[1][0]
+                    else:
+                        field = text[0] + text[-1]
                     if field in all_fields:
                         flag = 1
                         pixels.set_pixel_rgb(field_n-1, 0x00FF00, 1)
