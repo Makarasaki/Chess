@@ -15,6 +15,7 @@
 # from multiprocessing.connection import wait
 # import re
 import time
+from turtle import done
 # from tracemalloc import start
 import serial
 from apa102 import *
@@ -300,7 +301,8 @@ def main():
     ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
     ser.reset_input_buffer()
     print("kliknij, żeby rozpocząć")
-    knight_move('b1', 'b2', ser)
+    knight_move('b1', 'c3', ser)
+    print(done)
     # voice_recognition_test()
     # # game_test()
     # mode = listen("jednoosobowy", "wieloosobowy")
