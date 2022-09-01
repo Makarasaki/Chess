@@ -286,7 +286,7 @@ def voice_recognition_test():
             try:
                 with sr.Microphone() as source:
                     print("talk now")
-                    audio = r.listen(source, 0x0000FF, 3)
+                    audio = r.listen(source, 0x0000FF, 2)
                     text = str.lower(r.recognize_google(audio, language="pl"))
                     # text_split = text.split()
                     print(text)
