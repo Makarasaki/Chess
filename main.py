@@ -300,6 +300,7 @@ def main():
     pixels.clear_strip()
     ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
     ser.reset_input_buffer()
+    time.sleep(3)
     print("kliknij, żeby rozpocząć")
     knight_move('b1', 'c3', ser)
     print('done')
