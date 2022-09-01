@@ -297,8 +297,11 @@ def voice_recognition_test():
 def main():
     pixels.set_pixel(0, 0, 0, 0, 0)
     pixels.clear_strip()
+    ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+    ser.reset_input_buffer()
     print("kliknij, żeby rozpocząć")
-    voice_recognition_test()
+    knight_move('b1', 'b2', ser)
+    # voice_recognition_test()
     # # game_test()
     # mode = listen("jednoosobowy", "wieloosobowy")
     # if mode == "jednoosobowy":
@@ -452,6 +455,8 @@ def castling_black_long(ser):
 
 def movement(X, Y, M, ser):
     # print("start")
+    print(msg_gen(X, Y, M))
+    print(msg_gen(X, Y, M).encode('ascii'))
     ser.write(msg_gen(X, Y, M).encode('ascii'))
     ser.reset_input_buffer()
     time.sleep(1)
