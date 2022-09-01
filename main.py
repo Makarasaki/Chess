@@ -288,8 +288,8 @@ def voice_recognition_test():
                     print("talk now")
                     audio = r.listen(source, 0x0000FF, 3)
                     text = str.lower(r.recognize_google(audio, language="pl"))
-                    text_split = text.split()
-                    print(text_split)
+                    # text_split = text.split()
+                    print(text)
             except:
                 print("error, try again")
 
@@ -298,17 +298,17 @@ def main():
     pixels.set_pixel(0, 0, 0, 0, 0)
     pixels.clear_strip()
     print("kliknij, żeby rozpocząć")
-    # voice_recognition_test()
-    # game_test()
-    mode = listen("jednoosobowy", "wieloosobowy")
-    if mode == "jednoosobowy":
-        engine()
-    elif mode == "wieloosobowy":
-        human()
-    else:
-        draw_chessboard()
-        motor_reliability_test()
-        game_test()
+    voice_recognition_test()
+    # # game_test()
+    # mode = listen("jednoosobowy", "wieloosobowy")
+    # if mode == "jednoosobowy":
+    #     engine()
+    # elif mode == "wieloosobowy":
+    #     human()
+    # else:
+    #     draw_chessboard()
+    #     motor_reliability_test()
+    #     game_test()
 
 
 if __name__ == '__main__':
