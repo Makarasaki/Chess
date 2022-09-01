@@ -302,7 +302,7 @@ def main():
     ser.reset_input_buffer()
     print("kliknij, żeby rozpocząć")
     knight_move('b1', 'c3', ser)
-    print(done)
+    print('done')
     # voice_recognition_test()
     # # game_test()
     # mode = listen("jednoosobowy", "wieloosobowy")
