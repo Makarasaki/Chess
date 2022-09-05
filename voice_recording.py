@@ -1,10 +1,3 @@
-# import sys
-# import pyaudio
-# import wave
-# from math import ceil
-# import serial
-# import spidev
-# import time
 import speech_recognition as sr
 import RPi.GPIO as GPIO
 from apa102 import *

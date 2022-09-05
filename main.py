@@ -1,33 +1,12 @@
 #!/usr/bin/python3
 
-# from _typeshed import Self
-# import sys
-# import pyaudio
-# import wave
-# import speech_recognition as sr
-# import RPi.GPIO as GPIO
-# import spidev
-# from math import ceil
-# from cgitb import text
-# from cmath import sqrt
-# from ast import While
-# from ctypes.wintypes import tagRECT
-# from multiprocessing.connection import wait
-# import re
 import time
-# from turtle import done
-# from tracemalloc import start
 import serial
 from apa102 import *
 from Fields import *
 from voice_recording import *
 import chess
 import chess.engine
-# import math
-# from datetime import datetime
-# import pdb
-# import asyncio
-# import os
 
 
 def human():
@@ -39,14 +18,13 @@ def human():
     pixels = APA102(3)
     pixels.set_pixel(0, 0, 0, 0, 0)
 
-    # tymczasowe homeowanie
     time.sleep(3)
     home(ser)
 
     board = chess.Board()
     print(board)
 
-    while True:  # While not board.is_game_over():
+    while not board.is_game_over():
 
         pixels.set_pixel(0, 0, 0, 0, 0)
         pixels.clear_strip()
@@ -102,7 +80,6 @@ def engine():
     pixels = APA102(3)
     pixels.set_pixel(0, 0, 0, 0, 0)
 
-    # tymczasowe homeowanie
     time.sleep(3)
     home(ser)
 
@@ -125,7 +102,7 @@ def engine():
         print(engine_move.move)
         print(board)
 
-    while True:  # While not board.is_game_over():
+    while not board.is_game_over():
 
         pixels.set_pixel(0, 0, 0, 0, 0)
         pixels.clear_strip()
@@ -197,30 +174,27 @@ def game_test():
                   30: '15.67', 31: '12.44', 32: '6.20', 33: '10.50', 34: '6.20', 35: '9.70', 36: '7.48', 37: '6.53', 38: '6.84', 39: '8.12', 40: '11.15', 41: '7.81', 42: '11.14', 43: '9.07', 44: '22.89', 45: '17.52', 46: '7.18', 47: '6.53', 48: '8.44', 49: '6.20', 50: '5.25', 51: '6.53', 52: '8.74', 53: '10.50', 54: '8.58', 55: '9.71', 56: '21.66', 57: '20.39', 58: '9.06', 59: '7.14'}
     duda_nakamura_moves = ["g1f3", "g8f6", "d2d4", "e7e6", "c2c4", "d7d5", "b1c3", "f8b4", "c1d2", "e8g8", "e2e3", "b7b6", "a2a3", "b4e7", "c3d5", "e6d5", "a1c1", "c8a6", "d1a4", "c7c5", "d4c5", "b6c5", "d2c3", "f6e4", "c3e5", "a6c4", "f1c4", "d5c4", "a4c4",
                            "e4f6", "e1g1", "b8d7", "e5c3", "d7b6", "c4e2", "d8d5", "f1d1", "d5e6", "c3a5", "f8d8", "f3d2", "d8d7", "d2f3", "a8d8", "d1d7", "d8d7", "h2h3", "h7h6", "e2b5", "d7d5", "b5a6", "e6d7", "a6e2", "f6e4", "f3e1", "d7a4", "a5b6", "a7b6", "c1c4", "a4d1"]
-    # duda_nakamura_moves = ["a3h3"]
+
     i = 0
     time.sleep(3)
     home(ser)
-    # move_exe('h8h7', 'h8', 'h7', ser)
-    # movement(eval('a3').X_center, eval('a3').Y_center, 0, ser)
-    # time.sleep(2)
     print("start timer!!!")
     while i < len(duda_nakamura_moves):
         field_1dn = str(duda_nakamura_moves[i])[
             0] + str(duda_nakamura_moves[i])[1]
         field_2dn = str(duda_nakamura_moves[i])[
             2] + str(duda_nakamura_moves[i])[3]
-        # print(f"ruch: {duda_nakamura_moves[i]}")
+        print(f"ruch: {duda_nakamura_moves[i]}")
         tic = time.perf_counter()
-        # print(f"tic: {tic}")
-        # move_exe(duda_nakamura_moves[i], field_1dn, field_2dn, ser)
+        print(f"tic: {tic}")
+        move_exe(duda_nakamura_moves[i], field_1dn, field_2dn, ser)
         tac = time.perf_counter()
-        # print(f"tac: {tac}")
-        # print(f"Czas: {tac - tic}")
+        print(f"tac: {tac}")
+        print(f"Czas: {tac - tic}")
         print(only_times[i])
         moves_times[duda_nakamura_moves[i]] = format(tac - tic, '.2f')
-        # only_times[i] = format(tac - tic, '.2f')
-        # print(moves_times)
+        only_times[i] = format(tac - tic, '.2f')
+        print(moves_times)
         i += 1
     print(moves_times)
     print(only_times)
@@ -237,7 +211,7 @@ def motor_reliability_test():
     ser.reset_input_buffer()
     outside_fields = ["a1", "d4", "a7", "g8", "f3", "a5", "c8", "b7", "h2", "e3", "c1",
                       "a3", "g7", "g1", "d1", "f3", "h6", "b1", "a2", "e7", "a8", "h7", "a1"]
-    # tymczasowe homeowanie
+
     time.sleep(3)
     home(ser)
     i = 0
@@ -266,7 +240,6 @@ def draw_chessboard():
                       "g1",                                     "g8",
                       "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8"]
 
-    # tymczasowe homeowanie
     time.sleep(3)
     home(ser)
     i = 0
@@ -302,19 +275,16 @@ def main():
     ser.reset_input_buffer()
     time.sleep(3)
     print("kliknij, żeby rozpocząć")
-    knight_move('b1', 'c3', ser)
-    print('done')
-    # voice_recognition_test()
-    # # game_test()
-    # mode = listen("jednoosobowy", "wieloosobowy")
-    # if mode == "jednoosobowy":
-    #     engine()
-    # elif mode == "wieloosobowy":
-    #     human()
-    # else:
-    #     draw_chessboard()
-    #     motor_reliability_test()
-    #     game_test()
+    mode = listen("jednoosobowy", "wieloosobowy")
+    if mode == "jednoosobowy":
+        engine()
+    elif mode == "wieloosobowy":
+        human()
+    else:
+        draw_chessboard()
+        # motor_reliability_test()
+        # game_test()
+        # voice_recognition_test()
 
 
 if __name__ == '__main__':
@@ -457,7 +427,6 @@ def castling_black_long(ser):
 
 
 def movement(X, Y, M, ser):
-    # print("start")
     print(msg_gen(X, Y, M))
     print(msg_gen(X, Y, M).encode('ascii'))
     ser.write(msg_gen(X, Y, M).encode('ascii'))
@@ -473,6 +442,3 @@ def home(ser):
     time.sleep(1)
     while ser.read().decode('ascii').rstrip() != "1":
         pass
-    # while True:
-    #     if ser.readline().decode('ascii').rstrip() == "1":
-    #         break
